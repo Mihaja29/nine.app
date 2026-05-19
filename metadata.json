@@ -1,0 +1,6 @@
+{
+  "name": "Nine App Clone",
+  "description": "A clone of the Mihaja29/nine.app project on GitHub.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
