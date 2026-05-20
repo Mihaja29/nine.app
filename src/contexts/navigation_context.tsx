@@ -7,6 +7,8 @@ interface NavigationContextType {
   setCurrentView: (view: ViewState) => void;
   selectedPersonId: string | null;
   setSelectedPersonId: (id: string | null) => void;
+  selectedPerson: any;
+  setSelectedPerson: (person: any) => void;
   isNavOpen: boolean;
   setIsNavOpen: (isOpen: boolean) => void;
   handleBack: () => void;
@@ -19,6 +21,8 @@ const NavigationContext = createContext<NavigationContextType>({
   setCurrentView: () => {},
   selectedPersonId: null,
   setSelectedPersonId: () => {},
+  selectedPerson: null,
+  setSelectedPerson: () => {},
   isNavOpen: false,
   setIsNavOpen: () => {},
   handleBack: () => {},
@@ -32,6 +36,7 @@ export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const { user, loading } = useAuth();
   const [currentView, setCurrentView] = useState<ViewState>('splash');
   const [selectedPersonId, setSelectedPersonId] = useState<string | null>(null);
+  const [selectedPerson, setSelectedPerson] = useState<any>(null);
   const [isNavOpen, setIsNavOpen] = useState(false);
 
   useEffect(() => {
@@ -62,6 +67,8 @@ export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       setCurrentView,
       selectedPersonId,
       setSelectedPersonId,
+      selectedPerson,
+      setSelectedPerson,
       isNavOpen,
       setIsNavOpen,
       handleBack,

@@ -9,6 +9,17 @@ interface PersonDetailsProps {
 }
 
 export function PersonDetails({ person, onBack }: PersonDetailsProps) {
+  if (!person) {
+    return (
+      <div className="flex-1 flex flex-col bg-gray-50 h-full">
+        <TopBar title="Détails" onBackClick={onBack} />
+        <div className="flex-1 flex items-center justify-center p-4 text-center text-gray-500">
+          Membre introuvable.
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex-1 flex flex-col bg-gray-50 h-full">
       <TopBar 

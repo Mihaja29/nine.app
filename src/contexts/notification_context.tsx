@@ -58,6 +58,13 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
         // Skip if user deleted it
         if (data.deletedBy && data.deletedBy.includes(user.uid)) return;
 
+        // Filter Annuaire de Groupe notifications for people in the same role/committee, group, and branch.
+        if (data.title === 'Annuaire de Groupe') {
+          if ((data.targetRole || '') !== (user.role || '')) return;
+          if ((data.targetGroupe || '') !== (user.groupe || '')) return;
+          if ((data.targetBranche || '') !== (user.branche || '')) return;
+        }
+
         notifs.push({
           id: docSnap.id,
           title: data.title,

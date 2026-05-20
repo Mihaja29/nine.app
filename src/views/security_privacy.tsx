@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion } from 'motion/react';
 import { Icons } from '../components/icons';
 import { db, auth } from '../config/firebase';
 import { doc, setDoc } from 'firebase/firestore';
@@ -66,7 +67,12 @@ export function SecurityPrivacy({ user, onBack }: SecurityPrivacyProps) {
   };
 
   return (
-    <div className="flex-1 flex flex-col bg-gray-50 pb-8 overflow-y-auto relative">
+    <motion.div 
+      initial={{ x: "100%" }} 
+      animate={{ x: 0 }} 
+      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      className="flex-1 flex flex-col bg-gray-50 pb-8 overflow-y-auto relative"
+    >
       {/* Toast Notification */}
       {toastMessage && (
         <div className="absolute top-20 left-1/2 -translate-x-1/2 bg-gray-800 text-white px-4 py-2 rounded-full shadow-lg text-sm z-[60] flex items-center gap-2 whitespace-nowrap">
@@ -278,7 +284,7 @@ export function SecurityPrivacy({ user, onBack }: SecurityPrivacyProps) {
           </div>
         </div>
       )}
-    </div>
+    </motion.div>
   );
 }
 

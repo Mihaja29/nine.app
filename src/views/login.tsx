@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { IconSvg20 } from '../components/svg_icons';
 import { Icons } from '../components/icons';
+import { Logo } from '../components/logo';
 import { auth, db } from '../config/firebase';
 import { doc, setDoc, serverTimestamp, getDoc, query, collection, where, getDocs } from 'firebase/firestore';
 import { 
@@ -272,12 +273,7 @@ export function Login() {
         
         {/* Logo area */}
         <div className="w-full flex flex-col items-center justify-center mb-1">
-          <img 
-            src="/logo.png" 
-            alt="Logo NINE" 
-            className="w-28 h-28 object-contain"
-            referrerPolicy="no-referrer"
-          />
+          <Logo size="xl" />
         </div>
 
         <div className="flex flex-col items-center mb-6 text-center">

@@ -36,7 +36,7 @@ function AppContent() {
   const { user } = useAuth();
   const { notifications, unreadCount, handleMarkAsRead, handleMarkAllAsRead, handleDeleteNotification, handleArchiveNotification, handleRestoreNotification } = useNotifications();
   const { people } = usePeople();
-  const { currentView, setCurrentView, selectedPersonId, setSelectedPersonId, isNavOpen, setIsNavOpen, handleBack, handleProfileClick, handleMenuClick } = useNavigation();
+  const { currentView, setCurrentView, selectedPersonId, setSelectedPersonId, selectedPerson, setSelectedPerson, isNavOpen, setIsNavOpen, handleBack, handleProfileClick, handleMenuClick } = useNavigation();
 
   const renderView = () => {
     switch (currentView) {
@@ -49,9 +49,9 @@ function AppContent() {
       case 'home':
         return <Home user={user} onProfileClick={handleProfileClick} onMenuClick={handleMenuClick} onNotificationsClick={() => setCurrentView('notifications_center')} unreadNotificationsCount={unreadCount} />;
       case 'dashboard':
-        return <Dashboard user={user} onProfileClick={handleProfileClick} onMenuClick={handleMenuClick} onBack={handleBack} people={people} onPersonClick={(id) => { setSelectedPersonId(id); setCurrentView('person_details'); }} onViewChange={(v) => setCurrentView(v as ViewState)} />;
+        return <Dashboard user={user} onProfileClick={handleProfileClick} onMenuClick={handleMenuClick} onBack={handleBack} people={people} onPersonClick={(id, person) => { setSelectedPersonId(id); if (person) setSelectedPerson(person); setCurrentView('person_details'); }} onViewChange={(v) => setCurrentView(v as ViewState)} />;
       case 'person_details':
-        return <PersonDetails person={people.find(p => p.id === selectedPersonId) as any} onBack={() => setCurrentView('dashboard')} />;
+        return <PersonDetails person={selectedPerson || people.find(p => p.id === selectedPersonId) as any} onBack={() => setCurrentView('dashboard')} />;
       case 'agenda':
         return <Agenda user={user} onProfileClick={handleProfileClick} onMenuClick={handleMenuClick} />;
       case 'planning':

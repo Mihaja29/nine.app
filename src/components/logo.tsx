@@ -15,7 +15,7 @@ export function Logo({ className = "", size = "md" }: LogoProps) {
 
   return (
     <img 
-      src="/logo.png" 
+      src="/logo-1.png" 
       alt="Logo NINE" 
       className={`object-contain ${sizes[size]} ${className}`}
       referrerPolicy="no-referrer"

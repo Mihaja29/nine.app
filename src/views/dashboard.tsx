@@ -3,7 +3,7 @@ import { Icons } from '../components/icons';
 import { TopBar } from '../components/top_bar';
 import { Person, Beneficiary, Unite, Equipe } from '../models/app_types';
 import { cn } from '../lib/utils';
-import { collection, query, where, onSnapshot, addDoc } from 'firebase/firestore';
+import { collection, query, where, onSnapshot, addDoc, doc, deleteDoc } from 'firebase/firestore';
 import { handleFirestoreError, OperationType } from '../models/firebase_utils';
 import { db } from '../config/firebase';
 import { createGroupNotification as createGroupNotificationUtil } from '../utils/notifications';
@@ -15,7 +15,7 @@ interface DashboardProps {
   onBack?: () => void;
   onMenuClick?: () => void;
   people: Person[];
-  onPersonClick: (id: string) => void;
+  onPersonClick: (id: string, personObj?: any) => void;
   onViewChange?: (view: string) => void;
 }
 
@@ -33,6 +33,9 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
   const [showEquipeModal, setShowEquipeModal] = useState(false);
   const [showMembreModal, setShowMembreModal] = useState(false);
   const [membreModalStep, setMembreModalStep] = useState(1);
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [personToDelete, setPersonToDelete] = useState<string | null>(null);
   
   const [newMemberData, setNewMemberData] = useState({
     lastName: '',
@@ -62,6 +65,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
     foodIntolerance: '',
     totem: '',
     equipeId: '',
+    etape: '',
     responsabilite: '',
     photoURL: '',
   });
@@ -75,6 +79,22 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const bProfile = user?.branche || '';
+
+  const getEtapesOptions = () => {
+    if (user?.groupe !== 'Tily Eto Madagasikara') return [];
+    switch (bProfile) {
+      case 'Lovitao':
+        return ['Miana-mandady (Patte tendre)', 'Vakimaso I (Premier œil ouvert)', 'Vakimaso II (Deuxième œil ouvert)', 'Mpiremby (Le Chasseur)'];
+      case 'Tily':
+        return ['Zazavao (Aspirant)', 'Mpikatroka (Deuxième classe)', 'Menavazana (Première classe)'];
+      case 'Mpiandalana':
+        return ['Mpiomana (Novice)', 'Mpiatrika (Compagnon)', 'Mpihary (Citoyen)'];
+      case 'Mpitarika':
+        return ['Mpiketrika mameno', 'Mpialoha lalana', 'Mahatsangy no ary'];
+      default:
+        return [];
+    }
+  };
 
   const getResponsabilitesOptions = () => {
     switch (bProfile) {
@@ -141,6 +161,17 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
 
   const createGroupNotification = async (message: string) => {
     await createGroupNotificationUtil(user, message);
+  };
+
+  const handleDeleteBeneficiary = async () => {
+    if (!personToDelete) return;
+    try {
+      await deleteDoc(doc(db, 'beneficiaries', personToDelete));
+      setShowDeleteConfirm(false);
+      setPersonToDelete(null);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const handleCreateUnite = async () => {
@@ -227,7 +258,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
         motherName: '', motherProfession: '', motherPhone: '',
         tuteurName: '', tuteurProfession: '', tuteurPhone: '',
         tutriceName: '', tutriceProfession: '', tutricePhone: '',
-        commonIllness: '', foodIntolerance: '', totem: '', equipeId: '', responsabilite: '', photoURL: ''
+        commonIllness: '', foodIntolerance: '', totem: '', equipeId: '', etape: '', responsabilite: '', photoURL: ''
       });
     } catch (e) {
       console.error(e);
@@ -405,17 +436,28 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
             ) : (
               <div className="flex flex-col gap-3">
                  {displayedList.map((person: any) => (
-                    <button 
-                      key={person.id}
-                  onClick={() => {
-                    if (person.id === user?.uid) {
-                      onProfileClick();
-                    } else if (activeTab === 'mpiandraikitra') {
-                      onPersonClick(person.id);
-                    }
-                  }}
-                  className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center gap-4 text-left active:scale-[0.99] transition-transform"
-                >
+                   <div 
+                     key={person.id}
+                     onClick={() => {
+                       if (person.id === user?.uid) {
+                         onProfileClick();
+                       } else if (activeTab === 'mpiandraikitra') {
+                         onPersonClick(person.id, person);
+                       }
+                     }}
+                     role="button"
+                     tabIndex={0}
+                     onKeyDown={(e) => {
+                       if (e.key === 'Enter' || e.key === ' ') {
+                         if (person.id === user?.uid) {
+                           onProfileClick();
+                         } else if (activeTab === 'mpiandraikitra') {
+                           onPersonClick(person.id, person);
+                         }
+                       }
+                     }}
+                     className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center gap-4 text-left cursor-pointer relative"
+                   >
                   <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center shrink-0 overflow-hidden">
                     {person.photoURL ? (
                       <img src={person.photoURL} alt="Profil" className="w-full h-full object-cover" />
@@ -423,7 +465,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                       <Icons.User className="w-6 h-6 text-gray-400" />
                     )}
                   </div>
-                  <div className="flex-1 min-w-0">
+                  <div className="flex-1 min-w-0 pr-8">
                     <h4 className="font-semibold text-gray-900 truncate">
                       {person.useTotemAsMainName && person.totemName ? person.totemName : `${person.firstName} ${person.lastName}`}
                     </h4>
@@ -442,7 +484,68 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                       </p>
                     )}
                   </div>
-                  {(() => {
+                  {activeTab === 'membres' ? (
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 h-full flex flex-col justify-center shrink-0">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setOpenMenuId(openMenuId === person.id ? null : person.id);
+                        }}
+                        className="p-2 text-gray-400 hover:bg-gray-100 rounded-full transition-colors flex items-center justify-center shrink-0 w-10 h-10"
+                      >
+                        <svg className="w-5 h-5 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512">
+                          <path d="M96 184c39.8 0 72 32.2 72 72s-32.2 72-72 72-72-32.2-72-72 32.2-72 72-72zM24 80c0 39.8 32.2 72 72 72s72-32.2 72-72S135.8 8 96 8 24 40.2 24 80zm0 352c0 39.8 32.2 72 72 72s72-32.2 72-72-32.2-72-72-72-72 32.2-72 72z"/>
+                        </svg>
+                      </button>
+
+                      <AnimatePresence>
+                        {openMenuId === person.id && (
+                          <>
+                            <div 
+                              className="fixed inset-0 z-[50]" 
+                              onClick={(e) => { e.stopPropagation(); setOpenMenuId(null); }}
+                            />
+                            <motion.div
+                              initial={{ opacity: 0, scale: 0.95, transformOrigin: "top right" }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              exit={{ opacity: 0, scale: 0.95 }}
+                              transition={{ duration: 0.15 }}
+                              className="absolute right-10 top-1/2 -translate-y-1/2 mt-0 w-48 bg-white rounded-xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.15)] border border-gray-100 py-2 z-[60]"
+                            >
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setOpenMenuId(null);
+                                  onPersonClick(person.id, person);
+                                }}
+                                className="w-full text-left px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 flex items-center gap-3 transition-colors"
+                              >
+                                <svg className="w-4 h-4 fill-current text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                                  <path d="M320 312C386.3 312 440 258.3 440 192C440 125.7 386.3 72 320 72C253.7 72 200 125.7 200 192C200 258.3 253.7 312 320 312zM290.3 368C191.8 368 112 447.8 112 546.3C112 562.7 125.3 576 141.7 576L498.3 576C514.7 576 528 562.7 528 546.3C528 447.8 448.2 368 349.7 368L290.3 368z"/>
+                                </svg>
+                                Voir le profil
+                              </button>
+                              <div className="h-px bg-gray-100 my-1 mx-2"></div>
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setOpenMenuId(null);
+                                  setPersonToDelete(person.id);
+                                  setShowDeleteConfirm(true);
+                                }}
+                                className="w-full text-left px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 flex items-center gap-3 transition-colors"
+                              >
+                                <svg className="w-4 h-4 fill-current text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                                  <path d="M232.7 69.9L224 96L128 96C110.3 96 96 110.3 96 128C96 145.7 110.3 160 128 160L512 160C529.7 160 544 145.7 544 128C544 110.3 529.7 96 512 96L416 96L407.3 69.9C402.9 56.8 390.7 48 376.9 48L263.1 48C249.3 48 237.1 56.8 232.7 69.9zM512 208L128 208L149.1 531.1C150.7 556.4 171.7 576 197 576L443 576C468.3 576 489.3 556.4 490.9 531.1L512 208z"/>
+                                </svg>
+                                Supprimer le profil
+                              </button>
+                            </motion.div>
+                          </>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  ) : (() => {
                     const presence = formatLastActive(person.lastActive);
                     const isMissingLastActive = !person.lastActive;
                     
@@ -456,7 +559,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                       </div>
                     );
                   })()}
-                </button>
+                </div>
              ))}
           </div>
         )}
@@ -834,7 +937,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                   setShowMembreModal(false);
                   setMembreModalStep(1);
                   setHasTuteur(false);
-                  setNewMemberData({ lastName: '', firstName: '', birthDateDay: '', birthDateMonth: '', birthDateYear: '', birthPlace: '', address: '', phone: '', school: '', schoolClass: '', siblingsCount: '', fatherName: '', fatherProfession: '', fatherPhone: '', motherName: '', motherProfession: '', motherPhone: '', tuteurName: '', tuteurProfession: '', tuteurPhone: '', tutriceName: '', tutriceProfession: '', tutricePhone: '', commonIllness: '', foodIntolerance: '', totem: '', equipeId: '', responsabilite: '', photoURL: '' });
+                  setNewMemberData({ lastName: '', firstName: '', birthDateDay: '', birthDateMonth: '', birthDateYear: '', birthPlace: '', address: '', phone: '', school: '', schoolClass: '', siblingsCount: '', fatherName: '', fatherProfession: '', fatherPhone: '', motherName: '', motherProfession: '', motherPhone: '', tuteurName: '', tuteurProfession: '', tuteurPhone: '', tutriceName: '', tutriceProfession: '', tutricePhone: '', commonIllness: '', foodIntolerance: '', totem: '', equipeId: '', etape: '', responsabilite: '', photoURL: '' });
                 }} 
                 className="text-gray-400 hover:text-gray-600"
               >
@@ -1326,6 +1429,22 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                       </select>
                     </div>
                     
+                    {user?.groupe === 'Tily Eto Madagasikara' && getEtapesOptions().length > 0 && (
+                      <div>
+                        <label className="block text-xs font-semibold text-gray-700 mb-1">Étapes :</label>
+                        <select
+                          value={newMemberData.etape}
+                          onChange={(e) => setNewMemberData({ ...newMemberData, etape: e.target.value })}
+                          className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary font-medium"
+                        >
+                          <option value="" disabled>Sélectionner une étape</option>
+                          {getEtapesOptions().map(opt => (
+                            <option key={opt} value={opt}>{opt}</option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
+                    
                     <div>
                       <label className="block text-xs font-semibold text-gray-700 mb-1">Responsabilité :</label>
                       <select
@@ -1362,6 +1481,38 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
           </motion.div>
         </div>
       )}
+
+      {/* Delete Confirmation Modal */}
+      <AnimatePresence>
+        {showDeleteConfirm && (
+          <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl"
+            >
+              <h2 className="text-lg font-bold text-gray-900 mb-2">Supprimer le profil</h2>
+              <p className="text-gray-600 mb-6">Êtes-vous sûr de vouloir supprimer ce bénéficiaire ? Cette action est irréversible.</p>
+              
+              <div className="flex items-center gap-3">
+                <button 
+                  onClick={() => { setShowDeleteConfirm(false); setPersonToDelete(null); }}
+                  className="flex-1 py-2.5 px-4 rounded-xl font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors"
+                >
+                  Annuler
+                </button>
+                <button 
+                  onClick={handleDeleteBeneficiary}
+                  className="flex-1 py-2.5 px-4 rounded-xl font-medium text-white bg-red-600 hover:bg-red-700 transition-colors"
+                >
+                  Supprimer
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

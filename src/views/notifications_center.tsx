@@ -167,7 +167,12 @@ export function NotificationsCenter({
   }, []);
 
   return (
-    <div className="flex-1 flex flex-col bg-gray-50 pb-8 overflow-y-auto relative min-h-screen">
+    <motion.div 
+      initial={{ x: "100%" }} 
+      animate={{ x: 0 }} 
+      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      className="flex-1 flex flex-col bg-gray-50 pb-8 overflow-y-auto relative min-h-screen"
+    >
       {/* Top Bar */}
       <div className="bg-white border-b border-gray-100 p-4 flex items-center justify-between sticky top-0 z-10 shadow-sm">
         <div className="flex items-center gap-3">
@@ -616,6 +621,6 @@ export function NotificationsCenter({
         )}
       </AnimatePresence>
 
-    </div>
+    </motion.div>
   );
 }

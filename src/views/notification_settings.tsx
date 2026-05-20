@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { motion } from 'motion/react';
 import { Icons } from '../components/icons';
 import { db, auth } from '../config/firebase';
 import { doc, setDoc } from 'firebase/firestore';
@@ -103,7 +104,12 @@ export function NotificationSettings({ user, onBack }: NotificationSettingsProps
   };
 
   return (
-    <div className="flex-1 flex flex-col bg-gray-50 pb-8 overflow-y-auto relative">
+    <motion.div 
+      initial={{ x: "100%" }} 
+      animate={{ x: 0 }} 
+      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      className="flex-1 flex flex-col bg-gray-50 pb-8 overflow-y-auto relative"
+    >
       {/* Unsaved Changes Modal */}
       {showUnsavedModal && (
         <div className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
@@ -352,6 +358,6 @@ export function NotificationSettings({ user, onBack }: NotificationSettingsProps
         </section>
 
       </div>
-    </div>
+    </motion.div>
   );
 }
