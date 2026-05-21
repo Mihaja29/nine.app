@@ -11,6 +11,7 @@ export type ViewState =
   | 'outils'
   | 'settings'
   | 'person_details'
+  | 'person_talents'
   | 'unites_list'
   | 'equipes_list'
   | 'categories'

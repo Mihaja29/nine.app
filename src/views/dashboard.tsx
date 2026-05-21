@@ -21,7 +21,13 @@ interface DashboardProps {
 
 export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, onPersonClick, onViewChange }: DashboardProps) {
   const isMpiandraikitra = user?.role === 'mpiandraikitra';
-  const [activeTab, setActiveTab] = useState<'mpiandraikitra' | 'membres'>('mpiandraikitra');
+  const [activeTab, setActiveTab] = useState<'mpiandraikitra' | 'membres'>(
+    (sessionStorage.getItem('dashboard_active_tab') as 'mpiandraikitra' | 'membres') || 'mpiandraikitra'
+  );
+
+  useEffect(() => {
+    sessionStorage.setItem('dashboard_active_tab', activeTab);
+  }, [activeTab]);
   const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>([]);
   const [loadingBen, setLoadingBen] = useState(false);
   const [unites, setUnites] = useState<Unite[]>([]);
@@ -159,6 +165,15 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
     }
   }, [isMpiandraikitra, user?.groupe]);
 
+  useEffect(() => {
+    if (openMenuId === null) return;
+    const handleOutsideClick = () => {
+      setOpenMenuId(null);
+    };
+    document.addEventListener('click', handleOutsideClick);
+    return () => document.removeEventListener('click', handleOutsideClick);
+  }, [openMenuId]);
+
   const createGroupNotification = async (message: string) => {
     await createGroupNotificationUtil(user, message);
   };
@@ -166,7 +181,14 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
   const handleDeleteBeneficiary = async () => {
     if (!personToDelete) return;
     try {
+      const person = beneficiaries.find(b => b.id === personToDelete);
       await deleteDoc(doc(db, 'beneficiaries', personToDelete));
+      
+      if (person) {
+        const creatorName = user?.useTotemAsMainName && user?.totemName ? user.totemName : `${user?.firstName} ${user?.lastName}`;
+        await createGroupNotification(`${creatorName} a supprimé le membre bénéficiaire : ${person.firstName} ${person.lastName}`);
+      }
+      
       setShowDeleteConfirm(false);
       setPersonToDelete(null);
     } catch (e) {
@@ -500,13 +522,8 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
 
                       <AnimatePresence>
                         {openMenuId === person.id && (
-                          <>
-                            <div 
-                              className="fixed inset-0 z-[50]" 
-                              onClick={(e) => { e.stopPropagation(); setOpenMenuId(null); }}
-                            />
-                            <motion.div
-                              initial={{ opacity: 0, scale: 0.95, transformOrigin: "top right" }}
+                          <motion.div
+                            initial={{ opacity: 0, scale: 0.95, transformOrigin: "top right" }}
                               animate={{ opacity: 1, scale: 1 }}
                               exit={{ opacity: 0, scale: 0.95 }}
                               transition={{ duration: 0.15 }}
@@ -533,15 +550,14 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                                   setPersonToDelete(person.id);
                                   setShowDeleteConfirm(true);
                                 }}
-                                className="w-full text-left px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 flex items-center gap-3 transition-colors"
+                                className="w-full text-left px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 flex items-center gap-3 transition-colors"
                               >
-                                <svg className="w-4 h-4 fill-current text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                                <svg className="w-4 h-4 fill-current text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                                   <path d="M232.7 69.9L224 96L128 96C110.3 96 96 110.3 96 128C96 145.7 110.3 160 128 160L512 160C529.7 160 544 145.7 544 128C544 110.3 529.7 96 512 96L416 96L407.3 69.9C402.9 56.8 390.7 48 376.9 48L263.1 48C249.3 48 237.1 56.8 232.7 69.9zM512 208L128 208L149.1 531.1C150.7 556.4 171.7 576 197 576L443 576C468.3 576 489.3 556.4 490.9 531.1L512 208z"/>
                                 </svg>
                                 Supprimer le profil
                               </button>
                             </motion.div>
-                          </>
                         )}
                       </AnimatePresence>
                     </div>

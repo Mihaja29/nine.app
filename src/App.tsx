@@ -27,6 +27,7 @@ import { NotificationsCenter } from './views/notifications_center';
 import { NotificationSettings } from './views/notification_settings';
 import { SecurityPrivacy } from './views/security_privacy';
 import { PersonDetails } from './views/person_details';
+import { PersonTalents } from './views/person_talents';
 import { Profile } from './views/profile';
 import { BottomNav } from './components/bottom_nav';
 import { GlobalNotificationToast } from './components/global_notification_toast';
@@ -51,7 +52,9 @@ function AppContent() {
       case 'dashboard':
         return <Dashboard user={user} onProfileClick={handleProfileClick} onMenuClick={handleMenuClick} onBack={handleBack} people={people} onPersonClick={(id, person) => { setSelectedPersonId(id); if (person) setSelectedPerson(person); setCurrentView('person_details'); }} onViewChange={(v) => setCurrentView(v as ViewState)} />;
       case 'person_details':
-        return <PersonDetails person={selectedPerson || people.find(p => p.id === selectedPersonId) as any} onBack={() => setCurrentView('dashboard')} />;
+        return <PersonDetails person={selectedPerson || people.find(p => p.id === selectedPersonId) as any} onBack={() => setCurrentView('dashboard')} onTalentClick={() => setCurrentView('person_talents')} />;
+      case 'person_talents':
+        return <PersonTalents person={selectedPerson || people.find(p => p.id === selectedPersonId) as any} onBack={() => setCurrentView('person_details')} />;
       case 'agenda':
         return <Agenda user={user} onProfileClick={handleProfileClick} onMenuClick={handleMenuClick} />;
       case 'planning':

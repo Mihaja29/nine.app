@@ -204,7 +204,7 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
   const showEtapeFormationQuestion = !!renderEtapeFormationOptions();
 
   return (
-    <div className="flex-1 flex flex-col bg-white min-h-screen relative overflow-y-auto">
+    <div className="flex-1 flex flex-col bg-white min-h-screen relative overflow-y-auto no-scrollbar">
       {/* Decorative background shape */}
       <div className="absolute top-0 left-0 right-0 h-40 bg-primary/10 -z-0 rounded-b-[2rem]"></div>
 

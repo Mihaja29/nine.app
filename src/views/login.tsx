@@ -176,29 +176,49 @@ export function Login() {
       return;
     }
 
-    if (!trimmedEmail || !password) {
+    if (!trimmedEmail || (!password && method === 'password')) {
       setError('Veuillez remplir tous les champs');
       setLoading(false);
       return;
     }
     
     try {
-      if (isLogin) {
-        await signInWithEmailAndPassword(auth, trimmedEmail, password);
-      } else {
-        const userCredential = await createUserWithEmailAndPassword(auth, trimmedEmail, password);
-        await sendEmailVerification(userCredential.user);
-        
-        // Save request/user to database
-        await setDoc(doc(db, 'users', userCredential.user.uid), {
-          email: userCredential.user.email,
-          uid: userCredential.user.uid,
-          authMethod: 'email_password',
-          createdAt: serverTimestamp(),
-          status: 'pending_approval'
-        });
+      if (method === 'password') {
+        const emailQuery = query(collection(db, 'users'), where('email', '==', trimmedEmail));
+        const emailSnap = await getDocs(emailQuery);
 
-        setMessage("Un e-mail de confirmation a été envoyé. Veuillez cliquer sur le lien pour valider votre compte.");
+        if (isLogin) {
+          if (emailSnap.empty) {
+            setError("Cette adresse e-mail n'est pas encore enregistrée. Veuillez créer un compte.");
+            setLoading(false);
+            return;
+          }
+          await signInWithEmailAndPassword(auth, trimmedEmail, password);
+        } else {
+          if (!emailSnap.empty) {
+            const existingUser = emailSnap.docs[0].data();
+            if (existingUser.authMethod === 'google') {
+              setError("Cette adresse e-mail est déjà associée à un compte Google. Veuillez utiliser 'Continuer avec Google'.");
+            } else {
+              setError("Cette adresse e-mail est déjà utilisée. Veuillez vous connecter.");
+            }
+            setIsLogin(true);
+            setLoading(false);
+            return;
+          }
+          const userCredential = await createUserWithEmailAndPassword(auth, trimmedEmail, password);
+          await sendEmailVerification(userCredential.user);
+          
+          await setDoc(doc(db, 'users', userCredential.user.uid), {
+            email: userCredential.user.email,
+            uid: userCredential.user.uid,
+            authMethod: 'email_password',
+            createdAt: serverTimestamp(),
+            status: 'pending_approval'
+          });
+
+          setMessage("Un e-mail de confirmation a été envoyé. Veuillez cliquer sur le lien pour valider votre compte.");
+        }
       }
     } catch (err: any) {
       if (err.code === 'auth/email-already-in-use') {
