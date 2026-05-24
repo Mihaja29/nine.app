@@ -88,7 +88,7 @@ export function GlobalNotificationToast({
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 16 }}
           exit={{ opacity: 0, y: -50 }}
-          transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+          transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.3 }}
           className="absolute top-0 flex justify-center w-full z-[100] px-4 pointer-events-none"
         >
           <div 
@@ -102,7 +102,7 @@ export function GlobalNotificationToast({
             }}
             className="w-full max-w-sm bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-gray-100 p-4 flex items-start gap-4 cursor-pointer pointer-events-auto"
           >
-            <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+            <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
               {activeToast && activeToast.isSystem ? <Icons.Info className="w-5 h-5 text-blue-500" /> : <Icons.Bell className="w-5 h-5 text-primary" />}
             </div>
             <div className="flex-1 min-w-0">

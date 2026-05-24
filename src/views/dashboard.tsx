@@ -513,7 +513,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                           e.stopPropagation();
                           setOpenMenuId(openMenuId === person.id ? null : person.id);
                         }}
-                        className="p-2 text-gray-400 hover:bg-gray-100 rounded-full transition-colors flex items-center justify-center shrink-0 w-10 h-10"
+                        className="p-2 text-gray-400 hover:bg-gray-100 rounded-full transition-colors flex items-center justify-center shrink-0 w-12 h-12"
                       >
                         <svg className="w-5 h-5 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512">
                           <path d="M96 184c39.8 0 72 32.2 72 72s-32.2 72-72 72-72-32.2-72-72 32.2-72 72-72zM24 80c0 39.8 32.2 72 72 72s72-32.2 72-72S135.8 8 96 8 24 40.2 24 80zm0 352c0 39.8 32.2 72 72 72s72-32.2 72-72-32.2-72-72-72-72 32.2-72 72z"/>
@@ -567,7 +567,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                     
                     return (
                       <div className={cn(
-                        "px-2.5 py-1 text-xs font-medium rounded-full flex items-center gap-1.5 shrink-0",
+                        "px-2.5 py-1 text-sm font-medium rounded-full flex items-center gap-2 shrink-0",
                         presence.isOnline ? "bg-green-50 text-green-700" : "bg-gray-100 text-gray-500"
                       )}>
                         {presence.isOnline && <span className="w-1.5 h-1.5 rounded-full bg-green-500 shrink-0"></span>}
@@ -790,7 +790,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 w-full max-w-sm"
+            className="bg-white rounded-2xl shadow-xl border border-gray-100 p-4 w-full max-w-sm"
           >
             <div className="flex justify-between items-center mb-5">
               <h3 className="text-lg font-bold text-gray-900">Choisissez votre Unité :</h3>
@@ -826,7 +826,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
               <button
                 onClick={handleCreateUnite}
                 disabled={!newUniteType || !newUniteName || isSubmitting}
-                className="w-full py-3 bg-primary text-white rounded-xl font-medium text-sm hover:bg-primary/90 disabled:opacity-50 mt-2"
+                className="w-full py-3 bg-primary text-white rounded-full font-medium text-sm hover:bg-primary/90 disabled:opacity-50 mt-2"
               >
                 {isSubmitting ? 'Enregistrement...' : 'Confirmer'}
               </button>
@@ -841,7 +841,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 w-full max-w-sm"
+            className="bg-white rounded-2xl shadow-xl border border-gray-100 p-4 w-full max-w-sm"
           >
             <div className="flex justify-between items-center mb-5">
               <h3 className="text-lg font-bold text-gray-900">Veuillez sélectionner l'Unité :</h3>
@@ -892,7 +892,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
               <button
                 onClick={handleCreateEquipe}
                 disabled={!selectedUniteId || !newEquipeType || !newEquipeName || isSubmitting}
-                className="w-full py-3 bg-primary text-white rounded-xl font-medium text-sm hover:bg-primary/90 disabled:opacity-50 mt-2"
+                className="w-full py-3 bg-primary text-white rounded-full font-medium text-sm hover:bg-primary/90 disabled:opacity-50 mt-2"
               >
                 {isSubmitting ? 'Enregistrement...' : 'Confirmer'}
               </button>
@@ -907,7 +907,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 w-full max-w-sm overflow-hidden"
+            className="bg-white rounded-2xl shadow-xl border border-gray-100 p-4 w-full max-w-sm overflow-hidden"
           >
             <div className="flex justify-between items-center mb-5">
               <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
@@ -969,7 +969,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                     initial={{ x: '-10%', opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     exit={{ x: '-10%', opacity: 0 }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                    transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.3 }}
                     className="space-y-4"
                   >
                     <div className="flex flex-col items-center justify-center mb-4">
@@ -977,7 +977,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                         {newMemberData.photoURL ? (
                           <img src={newMemberData.photoURL} alt="Aperçu" className="w-full h-full object-cover" />
                         ) : (
-                          <Icons.Image className="w-8 h-8 text-gray-400" />
+                          <Icons.Image className="w-12 h-12 text-gray-400" />
                         )}
                         <input
                           type="file"
@@ -986,11 +986,11 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                         />
                       </div>
-                      <p className="text-xs text-gray-500 mt-2">Ajouter une photo</p>
+                      <p className="text-sm text-gray-500 mt-2">Ajouter une photo</p>
                     </div>
 
                     <div>
-                      <label className="block text-xs font-semibold text-gray-700 mb-1">Nom :</label>
+                      <label className="block text-sm font-semibold text-gray-700 mb-1">Nom :</label>
                       <input
                         type="text"
                         placeholder="Nom"
@@ -1001,7 +1001,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                     </div>
                     
                     <div>
-                      <label className="block text-xs font-semibold text-gray-700 mb-1">Prénom :</label>
+                      <label className="block text-sm font-semibold text-gray-700 mb-1">Prénom :</label>
                       <input
                         type="text"
                         placeholder="Prénom"
@@ -1012,7 +1012,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                     </div>
                     
                     <div>
-                      <label className="block text-xs font-semibold text-gray-700 mb-1">Date de naissance :</label>
+                      <label className="block text-sm font-semibold text-gray-700 mb-1">Date de naissance :</label>
                       <div className="flex gap-2">
                         <input
                           type="number"
@@ -1045,7 +1045,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                     </div>
                     
                     <div>
-                      <label className="block text-xs font-semibold text-gray-700 mb-1">Lieu de naissance :</label>
+                      <label className="block text-sm font-semibold text-gray-700 mb-1">Lieu de naissance :</label>
                       <input
                         type="text"
                         placeholder="Lieu de naissance"
@@ -1071,11 +1071,11 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                     initial={{ x: '100%', opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     exit={{ x: '100%', opacity: 0 }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                    transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.3 }}
                     className="space-y-4"
                   >
                     <div>
-                      <label className="block text-xs font-semibold text-gray-700 mb-1">Adresse postale :</label>
+                      <label className="block text-sm font-semibold text-gray-700 mb-1">Adresse postale :</label>
                       <input
                         type="text"
                         placeholder="Adresse postale"
@@ -1086,7 +1086,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                     </div>
                     
                     <div>
-                      <label className="block text-xs font-semibold text-gray-700 mb-1">Numéro de téléphone :</label>
+                      <label className="block text-sm font-semibold text-gray-700 mb-1">Numéro de téléphone :</label>
                       <input
                         type="tel"
                         placeholder="Numéro de téléphone"
@@ -1120,11 +1120,11 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                     initial={{ x: '100%', opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     exit={{ x: '100%', opacity: 0 }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                    transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.3 }}
                     className="space-y-4"
                   >
                     <div>
-                      <label className="block text-xs font-semibold text-gray-700 mb-1">Établissement scolaire :</label>
+                      <label className="block text-sm font-semibold text-gray-700 mb-1">Établissement scolaire :</label>
                       <input
                         type="text"
                         placeholder="Nom de l'établissement"
@@ -1135,7 +1135,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                     </div>
                     
                     <div>
-                      <label className="block text-xs font-semibold text-gray-700 mb-1">Classe :</label>
+                      <label className="block text-sm font-semibold text-gray-700 mb-1">Classe :</label>
                       <select
                         value={newMemberData.schoolClass}
                         onChange={(e) => setNewMemberData({ ...newMemberData, schoolClass: e.target.value })}
@@ -1184,11 +1184,11 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                     initial={{ x: '100%', opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     exit={{ x: '100%', opacity: 0 }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                    transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.3 }}
                     className="space-y-4 max-h-[400px] overflow-y-auto pr-2 pb-2"
                   >
                     <div>
-                      <label className="block text-xs font-semibold text-gray-700 mb-1">Nombre de frères et sœurs :</label>
+                      <label className="block text-sm font-semibold text-gray-700 mb-1">Nombre de frères et sœurs :</label>
                       <input
                         type="number"
                         min="0"
@@ -1203,7 +1203,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                       <h4 className="text-sm font-bold text-gray-900 border-b border-gray-100 pb-2 mb-3">Parents</h4>
                       
                       <div className="space-y-3 mb-4 p-3 bg-blue-50/50 rounded-xl border border-blue-100/50">
-                        <label className="block text-xs font-bold text-blue-800">Père</label>
+                        <label className="block text-sm font-bold text-blue-800">Père</label>
                         <div>
                           <input
                             type="text"
@@ -1234,7 +1234,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                       </div>
 
                       <div className="space-y-3 p-3 bg-pink-50/50 rounded-xl border border-pink-100/50">
-                        <label className="block text-xs font-bold text-pink-800">Mère</label>
+                        <label className="block text-sm font-bold text-pink-800">Mère</label>
                         <div>
                           <input
                             type="text"
@@ -1279,7 +1279,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                       {hasTuteur && (
                         <>
                           <div className="space-y-3 mt-4 p-3 bg-purple-50/50 rounded-xl border border-purple-100/50">
-                            <label className="block text-xs font-bold text-purple-800">Tuteur</label>
+                            <label className="block text-sm font-bold text-purple-800">Tuteur</label>
                             <div>
                               <input
                                 type="text"
@@ -1310,7 +1310,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                           </div>
 
                           <div className="space-y-3 mt-3 p-3 bg-orange-50/50 rounded-xl border border-orange-100/50">
-                            <label className="block text-xs font-bold text-orange-800">Tutrice</label>
+                            <label className="block text-sm font-bold text-orange-800">Tutrice</label>
                             <div>
                               <input
                                 type="text"
@@ -1367,11 +1367,11 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                     initial={{ x: '100%', opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     exit={{ x: '100%', opacity: 0 }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                    transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.3 }}
                     className="space-y-4"
                   >
                     <div>
-                      <label className="block text-xs font-semibold text-gray-700 mb-1">Maladie courante :</label>
+                      <label className="block text-sm font-semibold text-gray-700 mb-1">Maladies courantes :</label>
                       <input
                         type="text"
                         placeholder="Ex: Asthme, allergies..."
@@ -1379,11 +1379,11 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                         onChange={(e) => setNewMemberData({ ...newMemberData, commonIllness: e.target.value })}
                         className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary font-medium"
                       />
-                      <p className="text-xs text-gray-500 mt-1">Laissez vide si aucune</p>
+                      <p className="text-sm text-gray-500 mt-1">Laissez vide si aucune</p>
                     </div>
                     
                     <div>
-                      <label className="block text-xs font-semibold text-gray-700 mb-1">Intolérance alimentaire :</label>
+                      <label className="block text-sm font-semibold text-gray-700 mb-1">Intolérances alimentaires :</label>
                       <input
                         type="text"
                         placeholder="Ex: Gluten, lactose, arachides..."
@@ -1391,7 +1391,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                         onChange={(e) => setNewMemberData({ ...newMemberData, foodIntolerance: e.target.value })}
                         className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary font-medium"
                       />
-                      <p className="text-xs text-gray-500 mt-1">Laissez vide si aucune</p>
+                      <p className="text-sm text-gray-500 mt-1">Laissez vide si aucune</p>
                     </div>
 
                     <div className="flex gap-2 mt-6">
@@ -1417,11 +1417,11 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                     initial={{ x: '100%', opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     exit={{ x: '100%', opacity: 0 }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                    transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.3 }}
                     className="space-y-4"
                   >
                     <div>
-                      <label className="block text-xs font-semibold text-gray-700 mb-1">Totem :</label>
+                      <label className="block text-sm font-semibold text-gray-700 mb-1">Totem :</label>
                       <input
                         type="text"
                         placeholder="Ex: Liona..."
@@ -1432,7 +1432,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                     </div>
                     
                     <div>
-                      <label className="block text-xs font-semibold text-gray-700 mb-1">Équipe :</label>
+                      <label className="block text-sm font-semibold text-gray-700 mb-1">Équipe :</label>
                       <select
                         value={newMemberData.equipeId}
                         onChange={(e) => setNewMemberData({ ...newMemberData, equipeId: e.target.value })}
@@ -1447,7 +1447,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                     
                     {user?.groupe === 'Tily Eto Madagasikara' && getEtapesOptions().length > 0 && (
                       <div>
-                        <label className="block text-xs font-semibold text-gray-700 mb-1">Étapes :</label>
+                        <label className="block text-sm font-semibold text-gray-700 mb-1">Étapes :</label>
                         <select
                           value={newMemberData.etape}
                           onChange={(e) => setNewMemberData({ ...newMemberData, etape: e.target.value })}
@@ -1462,7 +1462,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                     )}
                     
                     <div>
-                      <label className="block text-xs font-semibold text-gray-700 mb-1">Responsabilité :</label>
+                      <label className="block text-sm font-semibold text-gray-700 mb-1">Responsabilité :</label>
                       <select
                         value={newMemberData.responsabilite}
                         onChange={(e) => setNewMemberData({ ...newMemberData, responsabilite: e.target.value })}
@@ -1485,7 +1485,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                       <button
                         onClick={handleCreateMember}
                         disabled={isSubmitting || !newMemberData.equipeId || !newMemberData.responsabilite}
-                        className="py-2.5 bg-primary text-white font-medium rounded-xl hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-1"
+                        className="h-10 py-0 bg-primary text-white font-medium rounded-full hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-1"
                       >
                         {isSubmitting ? 'Enregistrement...' : 'Valider'}
                       </button>
@@ -1506,7 +1506,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl"
+              className="bg-white rounded-2xl p-4 w-full max-w-sm shadow-xl"
             >
               <h2 className="text-lg font-bold text-gray-900 mb-2">Supprimer le profil</h2>
               <p className="text-gray-600 mb-6">Êtes-vous sûr de vouloir supprimer ce bénéficiaire ? Cette action est irréversible.</p>
@@ -1520,7 +1520,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                 </button>
                 <button 
                   onClick={handleDeleteBeneficiary}
-                  className="flex-1 py-2.5 px-4 rounded-xl font-medium text-white bg-red-600 hover:bg-red-700 transition-colors"
+                  className="flex-1 h-10 py-0 px-4 rounded-full font-medium text-white bg-red-600 hover:bg-red-700 transition-colors"
                 >
                   Supprimer
                 </button>
@@ -1538,7 +1538,7 @@ function StatCard({ icon, count, label }: { icon: React.ReactNode, count: number
     <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex flex-col items-center justify-center">
       <div className="mb-2">{icon}</div>
       <div className="text-xl font-bold text-gray-900">{count}</div>
-      <div className="text-xs text-gray-500 font-medium">{label}</div>
+      <div className="text-sm text-gray-500 font-medium">{label}</div>
     </div>
   );
 }

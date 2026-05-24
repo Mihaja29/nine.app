@@ -300,7 +300,7 @@ export function Login() {
           <h1 className="text-xl font-bold text-gray-900 mb-1.5 tracking-tight uppercase">
             {isLogin ? "Bienvenue sur Nine" : "Créer un compte"}
           </h1>
-          <div className="text-xs text-gray-500 leading-relaxed max-w-[280px]">
+          <div className="text-sm text-gray-500 leading-relaxed max-w-[280px]">
             {isLogin 
               ? (
                 <div className="italic">
@@ -313,12 +313,12 @@ export function Login() {
         </div>
 
         {error && (
-          <div className="bg-red-50 text-red-700 text-xs p-3 rounded-lg mb-4 text-center">
+          <div className="bg-red-50 text-red-700 text-sm p-3 rounded-lg mb-4 text-center">
             {error}
           </div>
         )}
         {message && (
-          <div className="bg-green-50 text-green-700 text-xs p-3 rounded-lg mb-4 text-center font-medium">
+          <div className="bg-green-50 text-green-700 text-sm p-3 rounded-lg mb-4 text-center font-medium">
             {message}
           </div>
         )}
@@ -329,7 +329,7 @@ export function Login() {
               onClick={handleGoogleAuth}
               disabled={loading}
               type="button"
-              className="w-full py-2.5 bg-[#f2f2f2] text-gray-800 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors mb-3 text-sm font-semibold"
+              className="w-full h-10 py-0 bg-[#f2f2f2] text-gray-800 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors mb-3 text-sm font-semibold"
             >
               {loading ? (
                 <Icons.Loader2 className="w-5 h-5 animate-spin text-gray-400" />
@@ -438,7 +438,7 @@ export function Login() {
                   setError('');
                   setMessage('');
                 }} 
-                className="text-xs font-bold text-gray-600 hover:text-black hover:underline"
+                className="text-sm font-bold text-gray-600 hover:text-black hover:underline"
               >
                  Retour aux autres options
               </button>
@@ -446,7 +446,7 @@ export function Login() {
           )}
 
           {method === 'password' && (
-            <div className="mt-5 text-center text-xs font-medium text-gray-600">
+            <div className="mt-5 text-center text-sm font-medium text-gray-600">
               {isLogin ? "Vous n'avez pas de compte ? " : "Vous avez déjà un compte ? "}
               <button 
                 type="button" 

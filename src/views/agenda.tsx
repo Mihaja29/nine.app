@@ -13,7 +13,7 @@ export function Agenda({ user, onProfileClick, onMenuClick }: AgendaProps) {
     <div className="flex-1 flex flex-col bg-gray-50 pb-8 min-h-screen">
       <TopBar title="Agenda" onProfileClick={onProfileClick} user={user} onMenuClick={onMenuClick} />
       
-      <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
+      <div className="flex-1 flex flex-col items-center justify-center p-4 text-center">
         <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-6">
           <IconSvg18 />
         </div>

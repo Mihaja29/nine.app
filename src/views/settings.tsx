@@ -33,7 +33,7 @@ export function Settings({ user, onProfileClick, onMenuClick, onLogout, onAccoun
     <motion.div 
       initial={{ x: "100%" }} 
       animate={{ x: 0 }} 
-      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.3 }}
       className="flex-1 flex flex-col bg-gray-50 pb-8 min-h-screen"
     >
       <TopBar title="Paramètres" user={user} onProfileClick={onProfileClick} onMenuClick={onMenuClick} />
@@ -105,7 +105,7 @@ export function Settings({ user, onProfileClick, onMenuClick, onLogout, onAccoun
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl"
+              className="bg-white rounded-2xl p-4 w-full max-w-sm shadow-xl"
             >
               <h2 className="text-lg font-bold text-gray-900 mb-2">Déconnexion</h2>
               <p className="text-gray-600 mb-6">Êtes-vous sûr de vouloir vous déconnecter ?</p>
@@ -119,7 +119,7 @@ export function Settings({ user, onProfileClick, onMenuClick, onLogout, onAccoun
                 </button>
                 <button 
                   onClick={confirmLogout}
-                  className="flex-1 py-2.5 px-4 rounded-xl font-medium text-white bg-red-600 hover:bg-red-700 transition-colors"
+                  className="flex-1 h-10 py-0 px-4 rounded-full font-medium text-white bg-red-600 hover:bg-red-700 transition-colors"
                 >
                   Oui
                 </button>

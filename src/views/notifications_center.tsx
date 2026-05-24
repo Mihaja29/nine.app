@@ -170,7 +170,7 @@ export function NotificationsCenter({
     <motion.div 
       initial={{ x: "100%" }} 
       animate={{ x: 0 }} 
-      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.3 }}
       className="flex-1 flex flex-col bg-gray-50 pb-8 overflow-y-auto relative min-h-screen"
     >
       {/* Top Bar */}
@@ -178,13 +178,13 @@ export function NotificationsCenter({
         <div className="flex items-center gap-3">
           <button 
             onClick={onBack}
-            className="w-10 h-10 rounded-full flex items-center justify-center text-gray-700 hover:bg-gray-100 transition-colors"
+            className="w-12 h-10 rounded-full flex items-center justify-center text-gray-700 hover:bg-gray-100 transition-colors"
           >
             <Icons.ArrowLeft className="w-5 h-5" />
           </button>
           <h1 className="text-xl font-bold text-gray-900">Notifications</h1>
         </div>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-2">
           {isSelectionMode ? (
             <>
               <button 
@@ -221,7 +221,7 @@ export function NotificationsCenter({
       {visibleNotifications.length === 0 ? (
         <div className="px-4 py-8 flex flex-col items-center justify-center text-center flex-1">
           <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mb-4">
-            <Icons.Bell className="w-8 h-8 text-blue-500" />
+            <Icons.Bell className="w-12 h-12 text-blue-500" />
           </div>
           <h3 className="text-lg font-semibold text-gray-900 mb-2">Aucune notification</h3>
           <p className="text-gray-500 text-sm max-w-sm">
@@ -254,7 +254,7 @@ export function NotificationsCenter({
                 )}
                 
                 <div className="mt-1 shrink-0">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${!notification.read ? 'bg-blue-100' : 'bg-gray-100'}`}>
+                  <div className={`w-12 h-12 rounded-full flex items-center justify-center ${!notification.read ? 'bg-blue-100' : 'bg-gray-100'}`}>
                     <Icons.Bell className={`w-5 h-5 ${!notification.read ? 'text-primary' : 'text-gray-500'}`} />
                   </div>
                 </div>
@@ -263,7 +263,7 @@ export function NotificationsCenter({
                     <h4 className={`text-sm tracking-tight truncate ${!notification.read ? 'font-semibold text-gray-900' : 'font-medium text-gray-700'}`}>
                       {notification.title}
                     </h4>
-                    <span className="text-xs text-gray-500 shrink-0">
+                    <span className="text-sm text-gray-500 shrink-0">
                       {new Intl.DateTimeFormat('fr-FR', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: 'short' }).format(new Date(notification.date))}
                     </span>
                   </div>
@@ -358,7 +358,7 @@ export function NotificationsCenter({
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white rounded-2xl p-6 w-full max-w-sm"
+              className="bg-white rounded-2xl p-4 w-full max-w-sm"
             >
               <h3 className="text-xl font-bold text-gray-900 mb-2">Archiver les notifications</h3>
               <p className="text-gray-600 mb-6">
@@ -367,13 +367,13 @@ export function NotificationsCenter({
               <div className="flex gap-3 justify-end">
                 <button 
                   onClick={() => setShowArchiveConfirm(false)}
-                  className="px-4 py-2 rounded-xl text-gray-600 font-medium hover:bg-gray-100 transition-colors"
+                  className="px-4 h-12 rounded-full text-gray-600 font-medium hover:bg-gray-100 transition-colors"
                 >
                   Annuler
                 </button>
                 <button 
                   onClick={handleConfirmArchive}
-                  className="px-4 py-2 rounded-xl bg-primary text-white font-medium hover:bg-primary-dark transition-colors"
+                  className="px-4 py-2 rounded-full bg-primary text-white font-medium hover:bg-primary-dark transition-colors"
                 >
                   Archiver
                 </button>
@@ -390,7 +390,7 @@ export function NotificationsCenter({
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white rounded-2xl p-6 w-full max-w-sm"
+              className="bg-white rounded-2xl p-4 w-full max-w-sm"
             >
               <h3 className="text-xl font-bold text-gray-900 mb-2">Supprimer définitivement</h3>
               <p className="text-gray-600 mb-6">
@@ -399,13 +399,13 @@ export function NotificationsCenter({
               <div className="flex gap-3 justify-end">
                 <button 
                   onClick={() => setShowDeleteConfirm(false)}
-                  className="px-4 py-2 rounded-xl text-gray-600 font-medium hover:bg-gray-100 transition-colors"
+                  className="px-4 h-12 rounded-full text-gray-600 font-medium hover:bg-gray-100 transition-colors"
                 >
                   Annuler
                 </button>
                 <button 
                   onClick={handleConfirmDelete}
-                  className="px-4 py-2 rounded-xl bg-red-600 text-white font-medium hover:bg-red-700 transition-colors"
+                  className="px-4 py-2 rounded-full bg-red-600 text-white font-medium hover:bg-red-700 transition-colors"
                 >
                   Supprimer
                 </button>
@@ -422,7 +422,7 @@ export function NotificationsCenter({
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white rounded-2xl p-6 w-full max-w-sm"
+              className="bg-white rounded-2xl p-4 w-full max-w-sm"
             >
               <h3 className="text-xl font-bold text-gray-900 mb-2">Supprimer définitivement</h3>
               <p className="text-gray-600 mb-6">
@@ -431,13 +431,13 @@ export function NotificationsCenter({
               <div className="flex gap-3 justify-end">
                 <button 
                   onClick={() => setPermanentDeleteId(null)}
-                  className="px-4 py-2 rounded-xl text-gray-600 font-medium hover:bg-gray-100 transition-colors"
+                  className="px-4 h-12 rounded-full text-gray-600 font-medium hover:bg-gray-100 transition-colors"
                 >
                   Annuler
                 </button>
                 <button 
                   onClick={confirmPermanentDelete}
-                  className="px-4 py-2 rounded-xl bg-red-600 text-white font-medium hover:bg-red-700 transition-colors"
+                  className="px-4 py-2 rounded-full bg-red-600 text-white font-medium hover:bg-red-700 transition-colors"
                 >
                   Supprimer
                 </button>
@@ -454,14 +454,14 @@ export function NotificationsCenter({
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.3 }}
             className="fixed inset-0 z-50 bg-gray-50 flex flex-col"
           >
             <div className="bg-white border-b border-gray-100 p-4 flex items-center justify-between sticky top-0 shadow-sm">
               <div className="flex items-center gap-3">
                 <button 
                   onClick={() => setViewingArchives(false)}
-                  className="w-10 h-10 rounded-full flex items-center justify-center text-gray-700 hover:bg-gray-100 transition-colors"
+                  className="w-12 h-12 rounded-full flex items-center justify-center text-gray-700 hover:bg-gray-100 transition-colors"
                 >
                   <Icons.ArrowLeft className="w-5 h-5" />
                 </button>
@@ -479,7 +479,7 @@ export function NotificationsCenter({
                 {archivedNotifications.map(notification => (
                   <div key={notification.id} className="p-4 border-b border-gray-100 flex gap-4 bg-white">
                     <div className="mt-1 shrink-0">
-                      <div className="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100">
+                      <div className="w-12 h-12 rounded-full flex items-center justify-center bg-gray-100">
                         <Icons.Archive className="w-5 h-5 text-gray-500" />
                       </div>
                     </div>
@@ -488,7 +488,7 @@ export function NotificationsCenter({
                         <h4 className="text-sm tracking-tight truncate font-medium text-gray-700">
                           {notification.title}
                         </h4>
-                        <span className="text-xs text-gray-500 shrink-0">
+                        <span className="text-sm text-gray-500 shrink-0">
                           {new Intl.DateTimeFormat('fr-FR', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: 'short' }).format(new Date(notification.date))}
                         </span>
                       </div>
@@ -527,14 +527,14 @@ export function NotificationsCenter({
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.3 }}
             className="fixed inset-0 z-50 bg-gray-50 flex flex-col"
           >
             <div className="bg-white border-b border-gray-100 p-4 flex items-center justify-between sticky top-0 shadow-sm">
               <div className="flex items-center gap-3">
                 <button 
                   onClick={() => setViewingHistory(false)}
-                  className="w-10 h-10 rounded-full flex items-center justify-center text-gray-700 hover:bg-gray-100 transition-colors"
+                  className="w-12 h-12 rounded-full flex items-center justify-center text-gray-700 hover:bg-gray-100 transition-colors"
                 >
                   <Icons.ArrowLeft className="w-5 h-5" />
                 </button>
@@ -543,7 +543,7 @@ export function NotificationsCenter({
               {history.length > 0 && (
                 <button
                   onClick={() => setShowClearHistoryConfirm(true)}
-                  className="w-10 h-10 rounded-full flex items-center justify-center text-gray-700 hover:bg-red-50 hover:text-red-500 transition-colors"
+                  className="w-12 h-12 rounded-full flex items-center justify-center text-gray-700 hover:bg-red-50 hover:text-red-500 transition-colors"
                   title="Vider l'historique"
                 >
                   <Icons.Trash2 className="w-5 h-5" />
@@ -560,7 +560,7 @@ export function NotificationsCenter({
               <div className="flex-1 overflow-y-auto">
                 {history.map(item => (
                   <div key={item.id} className="p-4 border-b border-gray-100 flex gap-4 bg-white items-center">
-                    <div className="shrink-0 w-10 h-10 rounded-full flex items-center justify-center bg-gray-50">
+                    <div className="shrink-0 w-12 h-12 rounded-full flex items-center justify-center bg-gray-50">
                       {item.type === 'delete' || item.type === 'permanent_delete' ? (
                          <Icons.Trash2 className="w-5 h-5 text-red-500" />
                       ) : item.type === 'archive' ? (
@@ -571,7 +571,7 @@ export function NotificationsCenter({
                     </div>
                     <div className="flex-1">
                       <p className="text-sm font-medium text-gray-800">{item.message}</p>
-                      <p className="text-xs text-gray-500 mt-1">
+                      <p className="text-sm text-gray-500 mt-1">
                         {new Intl.DateTimeFormat('fr-FR', { 
                           dateStyle: 'medium', 
                           timeStyle: 'short' 
@@ -593,7 +593,7 @@ export function NotificationsCenter({
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white rounded-2xl p-6 w-full max-w-sm"
+              className="bg-white rounded-2xl p-4 w-full max-w-sm"
             >
               <h3 className="text-xl font-bold text-gray-900 mb-2">Vider l'historique</h3>
               <p className="text-gray-600 mb-6">
@@ -602,7 +602,7 @@ export function NotificationsCenter({
               <div className="flex gap-3 justify-end">
                 <button 
                   onClick={() => setShowClearHistoryConfirm(false)}
-                  className="px-4 py-2 rounded-xl text-gray-600 font-medium hover:bg-gray-100 transition-colors"
+                  className="px-4 h-12 rounded-full text-gray-600 font-medium hover:bg-gray-100 transition-colors"
                 >
                   Annuler
                 </button>
@@ -611,7 +611,7 @@ export function NotificationsCenter({
                     setHistory([]);
                     setShowClearHistoryConfirm(false);
                   }}
-                  className="px-4 py-2 rounded-xl bg-red-600 text-white font-medium hover:bg-red-700 transition-colors"
+                  className="px-4 h-12 rounded-full bg-red-600 text-white font-medium hover:bg-red-700 transition-colors"
                 >
                   Vider
                 </button>

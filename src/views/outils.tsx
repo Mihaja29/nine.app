@@ -73,18 +73,18 @@ export function Outils({ user, onProfileClick, onMenuClick }: { user: any, onPro
     <motion.div 
       initial={{ x: "100%" }} 
       animate={{ x: 0 }} 
-      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.3 }}
       className="flex-1 flex flex-col bg-gray-50 pb-8 min-h-screen"
     >
       <TopBar title="Boîte à Outils" user={user} onProfileClick={onProfileClick} onMenuClick={onMenuClick} />
-      <div className="flex-1 flex flex-col p-6">
+      <div className="flex-1 flex flex-col p-4">
         <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
           <Icons.Wrench className="w-6 h-6 text-primary" />
           Outils Avancés
         </h2>
 
         {/* Manual Email Check */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-6">
+        <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 mb-6">
           <h3 className="font-semibold text-gray-900 mb-2">Vérifier les méthodes de connexion d'un e-mail</h3>
           <p className="text-sm text-gray-500 mb-4">Détectez si un e-mail est utilisé avec Google, Mot de passe, etc.</p>
           
@@ -99,7 +99,7 @@ export function Outils({ user, onProfileClick, onMenuClick }: { user: any, onPro
             <button 
               onClick={handleSearchEmail}
               disabled={loading || !searchEmail.trim()}
-              className="bg-primary text-white px-4 py-2 rounded-xl font-medium hover:bg-primary-dark transition-colors disabled:opacity-50"
+              className="bg-primary text-white px-4 py-2 rounded-full font-medium hover:bg-primary-dark transition-colors disabled:opacity-50"
             >
               Vérifier
             </button>
@@ -127,7 +127,7 @@ export function Outils({ user, onProfileClick, onMenuClick }: { user: any, onPro
         </div>
 
         {/* Database Duplicate Scan */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+        <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
           <div className="flex items-start justify-between mb-4">
             <div>
               <h3 className="font-semibold text-gray-900">Détection de doublons</h3>
@@ -136,7 +136,7 @@ export function Outils({ user, onProfileClick, onMenuClick }: { user: any, onPro
             <button 
               onClick={scanForDuplicates}
               disabled={loading}
-              className="bg-gray-100 text-gray-700 p-2 rounded-xl hover:bg-gray-200 transition-colors"
+              className="bg-gray-100 text-gray-700 p-2 rounded-full hover:bg-gray-200 transition-colors"
             >
               <Icons.RefreshCw className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
             </button>
@@ -151,7 +151,7 @@ export function Outils({ user, onProfileClick, onMenuClick }: { user: any, onPro
                     {d.accounts.map((acc: any) => (
                       <div key={acc.id} className="text-sm bg-white rounded-lg p-2 border border-red-100 flex items-center justify-between">
                         <span>{acc.firstName || 'Sans nom'} - <span className="opacity-70">{acc.authMethod || 'inconnu'}</span></span>
-                        <span className="text-xs text-gray-400 font-mono">{acc.id}</span>
+                        <span className="text-sm text-gray-400 font-mono">{acc.id}</span>
                       </div>
                     ))}
                   </div>
@@ -159,7 +159,7 @@ export function Outils({ user, onProfileClick, onMenuClick }: { user: any, onPro
               ))}
             </div>
           ) : (
-             <div className="text-center p-6 bg-gray-50 rounded-xl border border-gray-100">
+             <div className="text-center p-4 bg-gray-50 rounded-xl border border-gray-100">
                 {loading ? 'Recherche en cours...' : 'Aucun doublon détecté. Cliquez sur le bouton d\'actualisation pour scanner.'}
              </div>
           )}

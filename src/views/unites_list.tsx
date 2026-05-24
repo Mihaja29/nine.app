@@ -79,7 +79,7 @@ export function UnitesList({ user, onBack }: UnitesListProps) {
       <div className="flex-1 overflow-y-auto p-4 space-y-3">
         {loading ? (
           <div className="flex justify-center py-8">
-            <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+            <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
           </div>
         ) : unites.length === 0 ? (
           <div className="text-center py-12 text-gray-500 bg-white rounded-2xl shadow-sm border border-gray-100 px-6">
@@ -102,8 +102,8 @@ export function UnitesList({ user, onBack }: UnitesListProps) {
               <div className="flex-1 overflow-hidden">
                 <h3 className="text-base font-bold text-gray-900">{u.type} {u.name}</h3>
                 <div className="mt-1 space-y-1">
-                  <p className="text-xs text-gray-500 font-medium">Créée le {formatDate(u.createdAt)}</p>
-                  <p className="text-xs text-gray-500 font-medium truncate">
+                  <p className="text-sm text-gray-500 font-medium">Créée le {formatDate(u.createdAt)}</p>
+                  <p className="text-sm text-gray-500 font-medium truncate">
                     Par: <span className="text-gray-700">{u.creatorName || 'Utilisateur inconnu'}</span>
                   </p>
                 </div>
@@ -130,7 +130,7 @@ export function UnitesList({ user, onBack }: UnitesListProps) {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl"
+              className="bg-white rounded-2xl p-4 w-full max-w-sm shadow-xl"
             >
               <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mb-4 mx-auto">
                 <Icons.AlertTriangle className="w-6 h-6 text-red-600" />
@@ -150,7 +150,7 @@ export function UnitesList({ user, onBack }: UnitesListProps) {
                 <button
                   onClick={handleDelete}
                   disabled={isDeleting}
-                  className="flex-1 px-4 py-2.5 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-xl transition-colors flex justify-center items-center"
+                  className="flex-1 px-4 h-10 py-0 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-full transition-colors flex justify-center items-center"
                 >
                   {isDeleting ? (
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />

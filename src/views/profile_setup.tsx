@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Icons } from '../components/icons';
 import { useProfileSetupViewModel } from '../view_models/use_profile_setup_vm';
 
@@ -213,7 +214,7 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
         <div className="absolute top-0 left-0 right-0 p-4 z-20 flex justify-between items-center">
           <button 
             onClick={handleBackClick}
-            className="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-gray-700 hover:bg-gray-50 transition-colors"
+            className="w-12 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-gray-700 hover:bg-gray-50 transition-colors"
           >
             <Icons.ArrowLeft className="w-5 h-5" />
           </button>
@@ -224,9 +225,9 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
       {showUnsavedModal && (
         <div className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
           <div className="bg-white rounded-2xl w-full max-w-sm overflow-hidden flex flex-col shadow-xl">
-            <div className="p-6 flex flex-col items-center text-center gap-4">
+            <div className="p-4 flex flex-col items-center text-center gap-4">
               <div className="w-16 h-16 bg-orange-50 text-orange-500 rounded-full flex items-center justify-center mb-2">
-                <Icons.AlertTriangle className="w-8 h-8" />
+                <Icons.AlertTriangle className="w-12 h-12" />
               </div>
               <h3 className="font-bold text-gray-900 text-lg">Modifications non enregistrées</h3>
               <p className="text-sm text-gray-600">
@@ -235,7 +236,7 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
               <div className="w-full flex gap-3 mt-4">
                 <button 
                   onClick={() => setShowUnsavedModal(false)}
-                  className="flex-1 bg-gray-100 text-gray-700 font-medium py-3 rounded-xl hover:bg-gray-200 transition-colors"
+                  className="flex-1 bg-gray-100 text-gray-700 font-medium h-12 rounded-full hover:bg-gray-200 transition-colors"
                 >
                   Annuler
                 </button>
@@ -244,7 +245,7 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
                     setShowUnsavedModal(false);
                     if (onBack) onBack();
                   }}
-                  className="flex-1 bg-red-500 text-white font-medium py-3 rounded-xl hover:bg-red-600 transition-colors"
+                  className="flex-1 bg-red-500 text-white font-medium h-12 rounded-full hover:bg-red-600 transition-colors"
                 >
                   Quitter
                 </button>
@@ -254,7 +255,7 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
         </div>
       )}
 
-      <div className="flex-1 flex flex-col items-center p-6 mt-16 mb-8 w-full max-w-sm mx-auto">
+      <div className="flex-1 flex flex-col items-center p-4 mt-16 mb-8 w-full max-w-sm mx-auto">
         <div className="relative z-10 flex flex-col w-full">
 
         <div className="relative z-10 flex flex-col items-center mb-8">
@@ -262,11 +263,11 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
             {(photoBase64 || photoURL) ? (
               <img src={photoBase64 || photoURL} alt="Profil" className="w-full h-full object-cover" />
             ) : (
-              <Icons.User className="w-10 h-10 text-gray-400" />
+              <Icons.User className="w-12 h-12 text-gray-400" />
             )}
           </div>
           <h1 className="text-xl font-bold text-gray-900 text-center">
-            {isEditMode ? 'Modifier mon profil' : (step === 1 ? 'Finalisez votre profil' : 'Information sur le Scoutisme')}
+            {isEditMode ? 'Modifier mon profil' : (step === 1 ? 'Finalisez votre profil' : 'Informations sur le Scoutisme')}
           </h1>
           <p className="text-sm text-gray-500 mt-2 text-center">
             {isEditMode 
@@ -278,12 +279,14 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
         </div>
 
         <form onSubmit={isEditMode ? handleSubmit : (step === 1 ? handleNextStep : handleSubmit)} className="flex flex-col gap-4 relative z-10">
+<AnimatePresence mode="wait">
         
         {(step === 1 || isEditMode) && (
+          <motion.div key="step1" initial={{ x: step === 1 && !isEditMode ? "100%" : 0 }} animate={{ x: 0 }} exit={{ x: "-100%" }} transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.25 }}>
           <div className="flex flex-col gap-4">
             <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold text-gray-600">Nom</label>
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-semibold text-gray-600">Nom</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
                     <Icons.User className="w-4 h-4" />
@@ -299,8 +302,8 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
                 </div>
               </div>
 
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold text-gray-600">Prénom</label>
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-semibold text-gray-600">Prénom</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
                     <Icons.User className="w-4 h-4" />
@@ -317,8 +320,8 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
               </div>
             </div>
 
-            <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold text-gray-600">Date de naissance</label>
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-semibold text-gray-600">Date de naissance</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
                   <Icons.Calendar className="w-4 h-4" />
@@ -333,8 +336,8 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
               </div>
             </div>
 
-            <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold text-gray-600">Adresse postale</label>
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-semibold text-gray-600">Adresse postale</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
                   <Icons.MapPin className="w-4 h-4" />
@@ -350,8 +353,8 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
               </div>
             </div>
 
-            <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold text-gray-600">Téléphone</label>
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-semibold text-gray-600">Téléphone</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
                   <Icons.Phone className="w-4 h-4" />
@@ -370,8 +373,8 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
               </div>
             </div>
 
-            <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold text-gray-600">Adresse e-mail</label>
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-semibold text-gray-600">Adresse e-mail</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
                   <Icons.Mail className="w-4 h-4" />
@@ -387,8 +390,8 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
               </div>
             </div>
             
-            <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold text-gray-600">Photo de profil</label>
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-semibold text-gray-600">Photo de profil</label>
               <div className="flex flex-col gap-2">
                 <label className="flex items-center justify-center gap-2 w-full py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm cursor-pointer hover:bg-gray-100 transition-colors">
                   <Icons.Upload className="w-4 h-4 text-gray-500" />
@@ -402,7 +405,7 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
                 </label>
                 <div className="flex items-center gap-2">
                   <div className="h-px bg-gray-200 flex-1"></div>
-                  <span className="text-[10px] text-gray-400 uppercase font-semibold">OU</span>
+                  <span className="text-sm text-gray-400 uppercase font-semibold">OU</span>
                   <div className="h-px bg-gray-200 flex-1"></div>
                 </div>
                 <div className="relative">
@@ -426,21 +429,23 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
             {!isEditMode && (
               <button 
                 type="submit" 
-                className="w-full py-3 mt-4 bg-primary text-white rounded-xl font-medium hover:bg-primary-dark transition-colors"
+                className="w-full py-3 mt-4 bg-primary text-white rounded-full font-medium hover:bg-primary-dark transition-colors"
               >
                 Continuer
               </button>
             )}
           </div>
+          </motion.div>
         )}
 
-        {(step === 2 || isEditMode) && (
-          <div className="flex flex-col gap-4">
+        { (step === 2 || isEditMode) && (
+<motion.div key="step2" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.25 }}>
+            <div className="flex flex-col gap-4">
             {/* Step 2 Form */}
-            <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold text-gray-600">Avez-vous un Totem ?</label>
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-semibold text-gray-600">Avez-vous un Totem ?</label>
               <div className="flex gap-4">
-                <label className={`flex-1 py-2.5 rounded-xl border text-center cursor-pointer transition-colors text-sm font-medium ${hasTotem === 'oui' ? 'border-primary bg-primary/10 text-primary' : 'border-gray-200 bg-gray-50 text-gray-600 hover:bg-gray-100'}`}>
+                <label className={`flex-1 h-12 rounded-full border text-center cursor-pointer transition-colors text-sm font-medium ${hasTotem === 'oui' ? 'border-primary bg-primary/10 text-primary' : 'border-gray-200 bg-gray-50 text-gray-600 hover:bg-gray-100'}`}>
                   <input 
                     type="radio" 
                     name="hasTotem" 
@@ -451,7 +456,7 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
                   />
                   OUI
                 </label>
-                <label className={`flex-1 py-2.5 rounded-xl border text-center cursor-pointer transition-colors text-sm font-medium ${hasTotem === 'non' ? 'border-primary bg-primary/10 text-primary' : 'border-gray-200 bg-gray-50 text-gray-600 hover:bg-gray-100'}`}>
+                <label className={`flex-1 h-12 rounded-full border text-center cursor-pointer transition-colors text-sm font-medium ${hasTotem === 'non' ? 'border-primary bg-primary/10 text-primary' : 'border-gray-200 bg-gray-50 text-gray-600 hover:bg-gray-100'}`}>
                   <input 
                     type="radio" 
                     name="hasTotem" 
@@ -471,8 +476,8 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
 
             {hasTotem === 'oui' && (
               <div className="flex flex-col gap-3 p-4 bg-primary/5 rounded-xl border border-primary/20">
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-gray-600">Quel est votre Totem ?</label>
+                <div className="flex flex-col gap-2">
+                  <label className="text-sm font-semibold text-gray-600">Quel est votre Totem ?</label>
                   <input 
                     type="text"
                     value={totemName}
@@ -494,14 +499,14 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
                   />
                   <div className="flex flex-col">
                     <span className="text-sm font-medium text-gray-700">Utiliser comme nom principal</span>
-                    <span className="text-xs text-gray-500">Ce nom sera affiché sur votre profil au lieu de votre nom/prénom.</span>
+                    <span className="text-sm text-gray-500">Ce nom sera affiché sur votre profil au lieu de votre nom/prénom.</span>
                   </div>
                 </label>
               </div>
             )}
 
-            <div className="flex flex-col gap-1.5 mt-2">
-              <label className="text-xs font-semibold text-gray-600">Quand as-tu rejoint le mouvement ?</label>
+            <div className="flex flex-col gap-2 mt-2">
+              <label className="text-sm font-semibold text-gray-600">Quand as-tu rejoint le mouvement ?</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
                   <Icons.Calendar className="w-4 h-4" />
@@ -516,8 +521,8 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
               </div>
             </div>
 
-            <div className="flex flex-col gap-1.5 mt-2">
-              <label className="text-xs font-semibold text-gray-600">Quel comité ou membre occupes-tu ?</label>
+            <div className="flex flex-col gap-2 mt-2">
+              <label className="text-sm font-semibold text-gray-600">Quel comité ou membre occupes-tu ?</label>
               <div className="relative">
                 <select 
                   value={role}
@@ -543,8 +548,8 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
             </div>
 
             {(role === 'tonia' || role === 'mpiandraikitra') && (
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold text-gray-600">De quel Groupe es-tu responsable ?</label>
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-semibold text-gray-600">De quel Groupe es-tu responsable ?</label>
                 <div className="relative">
                   <select 
                     value={groupe}
@@ -569,8 +574,8 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
             )}
 
             {showBrancheQuestion && (
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold text-gray-600">À quelle branche appartiens-tu ?</label>
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-semibold text-gray-600">À quelle branche appartiens-tu ?</label>
                 <div className="relative">
                   <select 
                     value={branche}
@@ -592,8 +597,8 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
             )}
 
             {showFonctionBrancheQuestion && (
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold text-gray-600">Quelle est ta responsabilité au sein de la branche ?</label>
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-semibold text-gray-600">Quelle est ta responsabilité au sein de la branche ?</label>
                 <div className="relative">
                   <select 
                     value={fonctionBranche}
@@ -612,8 +617,8 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
             )}
 
             {showEtapeFormationQuestion && (
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold text-gray-600">Quelle étape de formation suis-tu actuellement ?</label>
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-semibold text-gray-600">Quelle étape de formation suis-tu actuellement ?</label>
                 <div className="relative">
                   <select 
                     value={etapeFormation}
@@ -631,8 +636,8 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
               </div>
             )}
 
-            <div className="flex flex-col gap-1.5 mt-2">
-              <label className="text-xs font-semibold text-gray-600">Date de la Promesse (Optionnel)</label>
+            <div className="flex flex-col gap-2 mt-2">
+              <label className="text-sm font-semibold text-gray-600">Date de la Promesse (Optionnel)</label>
               <div className="grid grid-cols-3 gap-2">
                 <div className="relative">
                   <select 
@@ -682,8 +687,8 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
               </div>
             </div>
 
-            <div className="flex flex-col gap-1.5 mt-2">
-              <label className="text-xs font-semibold text-gray-600">Date de la Promesse de Chef d'unité (Optionnel)</label>
+            <div className="flex flex-col gap-2 mt-2">
+              <label className="text-sm font-semibold text-gray-600">Date de la Promesse de Chef d'unité (Optionnel)</label>
               <div className="grid grid-cols-3 gap-2">
                 <div className="relative">
                   <select 
@@ -752,8 +757,10 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
               </button>
             </div>
           </div>
+          </motion.div>
         )}
-        </form>
+        </AnimatePresence>
+</form>
       </div>
      </div>
     </div>

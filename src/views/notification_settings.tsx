@@ -107,16 +107,16 @@ export function NotificationSettings({ user, onBack }: NotificationSettingsProps
     <motion.div 
       initial={{ x: "100%" }} 
       animate={{ x: 0 }} 
-      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.3 }}
       className="flex-1 flex flex-col bg-gray-50 pb-8 overflow-y-auto relative"
     >
       {/* Unsaved Changes Modal */}
       {showUnsavedModal && (
         <div className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
           <div className="bg-white rounded-2xl w-full max-w-sm overflow-hidden flex flex-col shadow-xl">
-            <div className="p-6 flex flex-col items-center text-center gap-4">
+            <div className="p-4 flex flex-col items-center text-center gap-4">
               <div className="w-16 h-16 bg-orange-50 text-orange-500 rounded-full flex items-center justify-center mb-2">
-                <Icons.AlertTriangle className="w-8 h-8" />
+                <Icons.AlertTriangle className="w-12 h-12" />
               </div>
               <h3 className="font-bold text-gray-900 text-lg">Modifications non enregistrées</h3>
               <p className="text-sm text-gray-600">
@@ -125,7 +125,7 @@ export function NotificationSettings({ user, onBack }: NotificationSettingsProps
               <div className="w-full flex gap-3 mt-4">
                 <button 
                   onClick={() => setShowUnsavedModal(false)}
-                  className="flex-1 bg-gray-100 text-gray-700 font-medium py-3 rounded-xl hover:bg-gray-200 transition-colors"
+                  className="flex-1 bg-gray-100 text-gray-700 font-medium h-12 rounded-full hover:bg-gray-200 transition-colors"
                 >
                   Annuler
                 </button>
@@ -134,7 +134,7 @@ export function NotificationSettings({ user, onBack }: NotificationSettingsProps
                     setShowUnsavedModal(false);
                     onBack();
                   }}
-                  className="flex-1 bg-red-500 text-white font-medium py-3 rounded-xl hover:bg-red-600 transition-colors"
+                  className="flex-1 bg-red-500 text-white font-medium h-12 rounded-full hover:bg-red-600 transition-colors"
                 >
                   Quitter
                 </button>
@@ -157,7 +157,7 @@ export function NotificationSettings({ user, onBack }: NotificationSettingsProps
         <div className="flex items-center gap-3 overflow-hidden">
           <button 
             onClick={handleBackClick}
-            className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 text-gray-700 hover:bg-gray-100 transition-colors"
+            className="w-12 h-10 rounded-full flex items-center justify-center shrink-0 text-gray-700 hover:bg-gray-100 transition-colors"
           >
             <Icons.ArrowLeft className="w-5 h-5" />
           </button>
@@ -166,7 +166,7 @@ export function NotificationSettings({ user, onBack }: NotificationSettingsProps
         <button 
           onClick={handleSave}
           disabled={saving || !hasUnsavedChanges}
-          className={`w-10 h-10 shrink-0 flex items-center justify-center rounded-full transition-colors ${hasUnsavedChanges ? 'text-primary bg-primary/10 hover:bg-primary/20' : 'text-gray-400 bg-transparent disabled:opacity-50'}`}
+          className={`w-12 h-12 shrink-0 flex items-center justify-center rounded-full transition-colors ${hasUnsavedChanges ? 'text-primary bg-primary/10 hover:bg-primary/20' : 'text-gray-400 bg-transparent disabled:opacity-50'}`}
         >
           {saving ? <Icons.Loader2 className="w-5 h-5 animate-spin" /> : <Icons.Save className="w-5 h-5" />}
         </button>
@@ -185,7 +185,7 @@ export function NotificationSettings({ user, onBack }: NotificationSettingsProps
                   {globalSound ? <Icons.Volume2 className="w-4 h-4 text-gray-500" /> : <Icons.VolumeX className="w-4 h-4 text-gray-500" />}
                   Son des notifications
                 </span>
-                <span className="text-xs text-gray-500 mt-1">Activer ou désactiver le son (vibration uniquement si désactivé)</span>
+                <span className="text-sm text-gray-500 mt-1">Activer ou désactiver le son (vibration uniquement si désactivé)</span>
               </div>
               <div className="relative inline-flex items-center ml-4 shrink-0">
                 <input 
@@ -250,7 +250,7 @@ export function NotificationSettings({ user, onBack }: NotificationSettingsProps
                   <Icons.AlertTriangle className="w-4 h-4 text-orange-500" />
                   Modifications importantes
                 </span>
-                <span className="text-xs text-gray-500">Ex: Annulations, réunions urgentes</span>
+                <span className="text-sm text-gray-500">Ex: Annulations, réunions urgentes</span>
                 <select 
                   className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none mt-1"
                   value={urgentSound}
@@ -270,7 +270,7 @@ export function NotificationSettings({ user, onBack }: NotificationSettingsProps
                   <Icons.MessageSquare className="w-4 h-4 text-blue-500" />
                   Mises à jour mineures
                 </span>
-                <span className="text-xs text-gray-500">Ex: Nouveau document, message simple</span>
+                <span className="text-sm text-gray-500">Ex: Nouveau document, message simple</span>
                 <select 
                   className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none mt-1"
                   value={minorSound}
@@ -298,7 +298,7 @@ export function NotificationSettings({ user, onBack }: NotificationSettingsProps
                   <Icons.Moon className="w-4 h-4 text-gray-500" />
                   Horaires de silence
                 </span>
-                <span className="text-xs text-gray-500 mt-1">Couper les sons pendant la nuit ou les réunions</span>
+                <span className="text-sm text-gray-500 mt-1">Couper les sons pendant la nuit ou les réunions</span>
               </div>
               <div className="relative inline-flex items-center ml-4 shrink-0">
                 <input 
@@ -313,8 +313,8 @@ export function NotificationSettings({ user, onBack }: NotificationSettingsProps
 
             {dndEnabled && (
               <div className="p-4 border-b border-gray-50 flex gap-4">
-                <label className="flex flex-col gap-1 flex-1">
-                  <span className="text-xs font-medium text-gray-600">De</span>
+                <label className="flex flex-col gap-2 flex-1">
+                  <span className="text-sm font-medium text-gray-600">De</span>
                   <input 
                     type="time" 
                     value={dndStart} 
@@ -322,8 +322,8 @@ export function NotificationSettings({ user, onBack }: NotificationSettingsProps
                     className="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none"
                   />
                 </label>
-                <label className="flex flex-col gap-1 flex-1">
-                  <span className="text-xs font-medium text-gray-600">À</span>
+                <label className="flex flex-col gap-2 flex-1">
+                  <span className="text-sm font-medium text-gray-600">À</span>
                   <input 
                     type="time" 
                     value={dndEnd} 
@@ -340,7 +340,7 @@ export function NotificationSettings({ user, onBack }: NotificationSettingsProps
                   <Icons.AlertTriangle className="w-4 h-4 text-gray-500" />
                   Exceptions
                 </span>
-                <span className="text-xs text-gray-500 mt-1">Autoriser le son pour les messages urgents/prioritaires</span>
+                <span className="text-sm text-gray-500 mt-1">Autoriser le son pour les messages urgents/prioritaires</span>
               </div>
               <div className="relative inline-flex items-center ml-4 shrink-0">
                 <input 

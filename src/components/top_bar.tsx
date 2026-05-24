@@ -118,7 +118,7 @@ export function TopBar({
                       <div className="h-px bg-gray-100 my-1 mx-2" />
                       <button 
                         onClick={handleLogoutClick}
-                        className="w-full text-left px-4 py-2.5 text-[15px] font-medium text-red-600 hover:bg-red-50 flex items-center gap-3 transition-colors"
+                        className="w-full text-left px-4 h-10 py-0 text-[15px] font-medium text-red-600 hover:bg-red-50 flex items-center gap-3 transition-colors"
                       >
                         <IconSvg17 />
                         Se déconnecter
@@ -138,7 +138,7 @@ export function TopBar({
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl"
+              className="bg-white rounded-2xl p-4 w-full max-w-sm shadow-xl"
             >
               <h2 className="text-lg font-bold text-gray-900 mb-2">Déconnexion</h2>
               <p className="text-gray-600 mb-6">Êtes-vous sûr de vouloir vous déconnecter ?</p>
@@ -152,7 +152,7 @@ export function TopBar({
                 </button>
                 <button 
                   onClick={confirmLogout}
-                  className="flex-1 py-2.5 px-4 rounded-xl font-medium text-white bg-red-600 hover:bg-red-700 transition-colors"
+                  className="flex-1 h-10 py-0 px-4 rounded-full font-medium text-white bg-red-600 hover:bg-red-700 transition-colors"
                 >
                   Oui
                 </button>

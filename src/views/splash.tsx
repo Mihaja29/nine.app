@@ -23,7 +23,7 @@ export function Splash({ onComplete, isReady = true }: SplashProps) {
   }, [minTimePassed, isReady, onComplete]);
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center bg-white p-6 relative">
+    <div className="flex-1 flex flex-col items-center justify-center bg-white p-4 relative">
       <div className="flex-1 flex flex-col items-center justify-center w-full">
         <div className="mb-4">
           <Logo size="xl" />

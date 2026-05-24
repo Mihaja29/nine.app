@@ -70,7 +70,7 @@ export function SecurityPrivacy({ user, onBack }: SecurityPrivacyProps) {
     <motion.div 
       initial={{ x: "100%" }} 
       animate={{ x: 0 }} 
-      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.3 }}
       className="flex-1 flex flex-col bg-gray-50 pb-8 overflow-y-auto relative"
     >
       {/* Toast Notification */}
@@ -86,7 +86,7 @@ export function SecurityPrivacy({ user, onBack }: SecurityPrivacyProps) {
         <div className="flex items-center gap-3 overflow-hidden">
           <button 
             onClick={handleBackClick}
-            className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 text-gray-700 hover:bg-gray-100 transition-colors"
+            className="w-12 h-10 rounded-full flex items-center justify-center shrink-0 text-gray-700 hover:bg-gray-100 transition-colors"
           >
             <Icons.ArrowLeft className="w-5 h-5" />
           </button>
@@ -95,7 +95,7 @@ export function SecurityPrivacy({ user, onBack }: SecurityPrivacyProps) {
         <button 
           onClick={handleSave}
           disabled={saving || !hasUnsavedChanges}
-          className={`w-10 h-10 shrink-0 flex items-center justify-center rounded-full transition-colors ${hasUnsavedChanges ? 'text-primary bg-primary/10 hover:bg-primary/20' : 'text-gray-400 bg-transparent disabled:opacity-50'}`}
+          className={`w-12 h-12 shrink-0 flex items-center justify-center rounded-full transition-colors ${hasUnsavedChanges ? 'text-primary bg-primary/10 hover:bg-primary/20' : 'text-gray-400 bg-transparent disabled:opacity-50'}`}
         >
           {saving ? <Icons.Loader2 className="w-5 h-5 animate-spin" /> : <Icons.Save className="w-5 h-5" />}
         </button>
@@ -171,9 +171,9 @@ export function SecurityPrivacy({ user, onBack }: SecurityPrivacyProps) {
       {showUnsavedModal && (
         <div className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
           <div className="bg-white rounded-2xl w-full max-w-sm overflow-hidden flex flex-col shadow-xl">
-            <div className="p-6 flex flex-col items-center text-center gap-4">
+            <div className="p-4 flex flex-col items-center text-center gap-4">
               <div className="w-16 h-16 bg-orange-50 text-orange-500 rounded-full flex items-center justify-center mb-2">
-                <Icons.AlertTriangle className="w-8 h-8" />
+                <Icons.AlertTriangle className="w-12 h-12" />
               </div>
               <h3 className="font-bold text-gray-900 text-lg">Modifications non enregistrées</h3>
               <p className="text-sm text-gray-600">
@@ -182,7 +182,7 @@ export function SecurityPrivacy({ user, onBack }: SecurityPrivacyProps) {
               <div className="w-full flex gap-3 mt-4">
                 <button 
                   onClick={() => setShowUnsavedModal(false)}
-                  className="flex-1 bg-gray-100 text-gray-700 font-medium py-3 rounded-xl hover:bg-gray-200 transition-colors"
+                  className="flex-1 bg-gray-100 text-gray-700 font-medium h-12 rounded-full hover:bg-gray-200 transition-colors"
                 >
                   Annuler
                 </button>
@@ -191,7 +191,7 @@ export function SecurityPrivacy({ user, onBack }: SecurityPrivacyProps) {
                     setShowUnsavedModal(false);
                     onBack();
                   }}
-                  className="flex-1 bg-red-500 text-white font-medium py-3 rounded-xl hover:bg-red-600 transition-colors"
+                  className="flex-1 bg-red-500 text-white font-medium h-12 rounded-full hover:bg-red-600 transition-colors"
                 >
                   Quitter
                 </button>
@@ -211,9 +211,9 @@ export function SecurityPrivacy({ user, onBack }: SecurityPrivacyProps) {
                 <Icons.X className="w-5 h-5" />
               </button>
             </div>
-            <div className="p-6 flex flex-col items-center text-center gap-4">
+            <div className="p-4 flex flex-col items-center text-center gap-4">
               <div className="w-16 h-16 bg-red-50 text-red-500 rounded-full flex items-center justify-center">
-                <Icons.Smartphone className="w-8 h-8" />
+                <Icons.Smartphone className="w-12 h-12" />
               </div>
               <p className="text-sm text-gray-600">
                 Vous êtes sur le point de vous déconnecter de tous vos autres appareils (navigateurs, applications mobiles).
@@ -222,7 +222,7 @@ export function SecurityPrivacy({ user, onBack }: SecurityPrivacyProps) {
               <div className="w-full flex gap-3 mt-4">
                 <button 
                   onClick={() => setShowDevicesModal(false)}
-                  className="flex-1 bg-gray-100 text-gray-700 font-medium py-3 rounded-xl hover:bg-gray-200 transition-colors"
+                  className="flex-1 bg-gray-100 text-gray-700 font-medium h-12 rounded-full hover:bg-gray-200 transition-colors"
                 >
                   Annuler
                 </button>
@@ -231,7 +231,7 @@ export function SecurityPrivacy({ user, onBack }: SecurityPrivacyProps) {
                     setShowDevicesModal(false);
                     setToastMessage("Vos autres sessions ont été révoquées (simulation).");
                   }}
-                  className="flex-1 bg-red-500 text-white font-medium py-3 rounded-xl hover:bg-red-600 transition-colors"
+                  className="flex-1 bg-red-500 text-white font-medium h-12 rounded-full hover:bg-red-600 transition-colors"
                 >
                   Déconnecter
                 </button>
@@ -259,7 +259,7 @@ export function SecurityPrivacy({ user, onBack }: SecurityPrivacyProps) {
                 </div>
                 <div className="flex flex-col">
                   <span className="font-medium text-sm">Appareil actuel</span>
-                  <span className="text-xs text-gray-500">Aujourd'hui à {new Date().toLocaleTimeString('fr-FR', {hour: '2-digit', minute:'2-digit'})}</span>
+                  <span className="text-sm text-gray-500">Aujourd'hui à {new Date().toLocaleTimeString('fr-FR', {hour: '2-digit', minute:'2-digit'})}</span>
                 </div>
               </div>
               <div className="p-4 border-b border-gray-50 flex items-center gap-4">
@@ -268,7 +268,7 @@ export function SecurityPrivacy({ user, onBack }: SecurityPrivacyProps) {
                 </div>
                 <div className="flex flex-col">
                   <span className="font-medium text-sm">Chrome sur Windows</span>
-                  <span className="text-xs text-gray-500">Hier à 14:32 • Antananarivo</span>
+                  <span className="text-sm text-gray-500">Hier à 14:32 • Antananarivo</span>
                 </div>
               </div>
               <div className="p-4 flex items-center gap-4">
@@ -277,7 +277,7 @@ export function SecurityPrivacy({ user, onBack }: SecurityPrivacyProps) {
                 </div>
                 <div className="flex flex-col">
                   <span className="font-medium text-sm">Safari sur iPhone</span>
-                  <span className="text-xs text-gray-500">Le 26 Avr à 09:15 • Majunga</span>
+                  <span className="text-sm text-gray-500">Le 26 Avr à 09:15 • Majunga</span>
                 </div>
               </div>
             </div>

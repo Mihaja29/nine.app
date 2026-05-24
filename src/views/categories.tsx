@@ -16,7 +16,7 @@ export function Categories({ user, onProfileClick, categories }: CategoriesProps
         user={user}
         onProfileClick={onProfileClick}
         rightActions={
-          <button className="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center shadow-sm hover:bg-primary-dark transition-colors">
+          <button className="w-12 h-10 bg-primary text-white rounded-full flex items-center justify-center shadow-sm hover:bg-primary-dark transition-colors">
             <Icons.Plus className="w-6 h-6" />
           </button>
         }
@@ -32,7 +32,7 @@ export function Categories({ user, onProfileClick, categories }: CategoriesProps
              <p className="text-gray-500 text-sm mb-6 max-w-[250px]">
                Ajoutez des catégories pour organiser vos personnes.
              </p>
-             <button className="px-6 py-3 bg-primary text-white font-medium rounded-xl hover:bg-primary-dark transition-colors flex items-center gap-2">
+             <button className="px-6 py-3 bg-primary text-white font-medium rounded-full hover:bg-primary-dark transition-colors flex items-center gap-2">
                <Icons.Plus className="w-5 h-5" />
                Ajouter une catégorie
              </button>
