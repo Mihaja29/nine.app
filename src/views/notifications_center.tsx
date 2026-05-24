@@ -289,7 +289,7 @@ export function NotificationsCenter({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-gray-900/10 backdrop-blur-sm z-30"
+            className="fixed inset-0 bg-white/70 backdrop-blur-sm z-30"
             onClick={() => setIsFabOpen(false)}
           />
         )}

@@ -2,6 +2,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Icons } from '../components/icons';
 import { useProfileSetupViewModel } from '../view_models/use_profile_setup_vm';
+import { renderBrancheOptions, renderEtapeFormationOptions, renderFonctionBrancheOptions } from '../utils/scout_options';
 
 interface ProfileSetupProps {
   user: any;
@@ -60,114 +61,6 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
     }
   };
 
-  const renderBrancheOptions = () => {
-    if (role === 'kp') {
-      return (
-        <>
-          <option value="Président(e) (Filoha)">Président(e) (Filoha)</option>
-          <option value="Président(e) Adjoint(e) (Filoha Mpanampy)">Président(e) Adjoint(e) (Filoha Mpanampy)</option>
-          <option value="Trésorier(ère) (Mpitahiry Vola)">Trésorier(ère) (Mpitahiry Vola)</option>
-          <option value="Secrétaire Financier (Mpitantsoratry ny vola)">Secrétaire Financier (Mpitantsoratry ny vola)</option>
-          <option value="Conseillers (Mpanolotsaina)">Conseillers (Mpanolotsaina)</option>
-          <option value="Membre Simple">Membre Simple</option>
-          <option value="AFF">AFF</option>
-          <option value="MDR">MDR</option>
-        </>
-      );
-    }
-    if (role === 'fmt2s') {
-      return (
-        <>
-          <option value="Président(e) (Filoha)">Président(e) (Filoha)</option>
-          <option value="Président(e) Adjoint(e) (Filoha Mpanampy)">Président(e) Adjoint(e) (Filoha Mpanampy)</option>
-          <option value="Trésorier(ère) (Mpitahiry Vola)">Trésorier(ère) (Mpitahiry Vola)</option>
-          <option value="Secrétaire Financier (Mpitantsoratry ny vola)">Secrétaire Financier (Mpitantsoratry ny vola)</option>
-          <option value="Conseillers (Mpanolotsaina)">Conseillers (Mpanolotsaina)</option>
-          <option value="Membre Simple">Membre Simple</option>
-        </>
-      );
-    }
-    if (groupe === 'Mpanazava Eto Madagasikara') {
-      return (
-        <>
-          <option value="Voronkely">Voronkely (Branche Jaune / Sampana Mavo)</option>
-          <option value="Mpanazava">Mpanazava (Branche Verte / Sampana Maitso)</option>
-          <option value="Afo">Afo ou Mpanazava Zokiny (Branche Rouge / Sampana Mena)</option>
-        </>
-      );
-    }
-    if (groupe === 'Tily Eto Madagasikara') {
-      return (
-        <>
-          <option value="Lovitao">Lovitao (Louveteaux / Sampana Mavo)</option>
-          <option value="Tily">Tily (Éclaireurs / Sampana Maitso)</option>
-          <option value="Mpiandalana">Mpiandalana (Routiers / Sampana Mena)</option>
-          <option value="Mpitarika">Mpitarika (Branche Aînée / Sampana Menafify)</option>
-        </>
-      );
-    }
-    return null;
-  };
-
-  const renderFonctionBrancheOptions = () => {
-    if (branche === 'Lovitao') {
-      return (
-        <>
-          <option value="Akela">Akela</option>
-          <option value="Baloo">Baloo</option>
-          <option value="Bagheera">Bagheera</option>
-          <option value="Kaa">Kaa</option>
-          <option value="Hathi">Hathi</option>
-          <option value="Chil">Chil</option>
-        </>
-      );
-    }
-    if (branche === 'Tily') {
-      return (
-        <>
-          <option value="Mpiandraikitra Tompon-toerana (Chef d'unité)">Mpiandraikitra Tompon-toerana (Chef d'unité)</option>
-          <option value="Mpiandraikitra Mpanampy (Assistant)">Mpiandraikitra Mpanampy (Assistant)</option>
-          <option value="Mpiandraikitra Mpampilalao (Instructeur)">Mpiandraikitra Mpampilalao (Instructeur)</option>
-        </>
-      );
-    }
-    if (branche === 'Mpanazava' || branche === 'Voronkely') {
-      return (
-        <>
-          <option value="Mpiandraikitra Tompon-toerana (Cheftaine d'unité)">Mpiandraikitra Tompon-toerana (Cheftaine d'unité)</option>
-          <option value="Mpiandraikitra Mpanampy (Assistante)">Mpiandraikitra Mpanampy (Assistante)</option>
-          <option value="Mpiandraikitra Mpampilalao (Instructrice)">Mpiandraikitra Mpampilalao (Instructrice)</option>
-        </>
-      );
-    }
-    if (branche === 'Mpiandalana') {
-      return (
-        <>
-          <option value="Zokiolona">Zokiolona</option>
-          <option value="Zokiolona Mpanampy">Zokiolona Mpanampy</option>
-        </>
-      );
-    }
-    if (branche === 'Mpitarika') {
-      return (
-        <>
-          <option value="Zokiolona">Zokiolona</option>
-          <option value="Mpandrary">Mpandrary</option>
-        </>
-      );
-    }
-    if (branche === 'Afo') {
-      return (
-        <>
-          <option value="Loholona">Loholona</option>
-          <option value="Loholom-pileovana">Loholom-pileovana</option>
-          <option value="Zokiolona">Zokiolona</option>
-        </>
-      );
-    }
-    return null;
-  };
-
   const showBrancheQuestion = 
     role === 'kp' || 
     role === 'fmt2s' || 
@@ -176,33 +69,7 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
   const activeBranches = ['Lovitao', 'Tily', 'Mpanazava', 'Voronkely', 'Mpiandalana', 'Mpitarika', 'Afo'];
   const showFonctionBrancheQuestion = activeBranches.includes(branche);
 
-  const renderEtapeFormationOptions = () => {
-    if (groupe === 'Mpanazava Eto Madagasikara') {
-      return (
-        <>
-          <option value="Tsimoka">Tsimoka</option>
-          <option value="Mamontsina">Mamontsina</option>
-          <option value="Mamony I">Mamony I</option>
-          <option value="Mamony II">Mamony II</option>
-          <option value="Mamelana">Mamelana</option>
-        </>
-      );
-    }
-    if (groupe === 'Tily Eto Madagasikara') {
-      return (
-        <>
-          <option value="Fanomanana">Fanomanana</option>
-          <option value="Fanaterana">Fanaterana</option>
-          <option value="TP2">TP2</option>
-          <option value="TP3">TP3</option>
-          <option value="TP4">TP4</option>
-        </>
-      );
-    }
-    return null;
-  };
-
-  const showEtapeFormationQuestion = !!renderEtapeFormationOptions();
+  const showEtapeFormationQuestion = !!renderEtapeFormationOptions(groupe);
 
   return (
     <div className="flex-1 flex flex-col bg-white min-h-screen relative overflow-y-auto no-scrollbar">
@@ -278,11 +145,16 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
           </p>
         </div>
 
-        <form onSubmit={isEditMode ? handleSubmit : (step === 1 ? handleNextStep : handleSubmit)} className="flex flex-col gap-4 relative z-10">
-<AnimatePresence mode="wait">
+        <form onSubmit={isEditMode ? handleSubmit : (step === 1 ? handleNextStep : handleSubmit)} className="flex flex-col gap-4 relative z-10 w-full overflow-hidden">
+<AnimatePresence initial={false}>
         
         {(step === 1 || isEditMode) && (
-          <motion.div key="step1" initial={{ x: step === 1 && !isEditMode ? "100%" : 0 }} animate={{ x: 0 }} exit={{ x: "-100%" }} transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.25 }}>
+          <motion.div key="step1" 
+             initial={{ x: step === 1 && !isEditMode ? "100%" : "-100%" }} 
+             animate={{ x: 0 }} 
+             exit={{ x: step === 2 ? "-100%" : "100%", position: 'absolute', top: 0, left: 0, width: '100%' }} 
+             transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.25 }}
+          >
           <div className="flex flex-col gap-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-2">
@@ -439,7 +311,12 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
         )}
 
         { (step === 2 || isEditMode) && (
-<motion.div key="step2" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.25 }}>
+<motion.div key="step2" 
+   initial={{ x: "100%" }} 
+   animate={{ x: 0 }} 
+   exit={{ x: "100%", position: 'absolute', top: 0, left: 0, width: '100%' }} 
+   transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.25 }}
+>
             <div className="flex flex-col gap-4">
             {/* Step 2 Form */}
             <div className="flex flex-col gap-2">
@@ -587,7 +464,7 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
                     required
                   >
                     <option value="" disabled>Sélectionner...</option>
-                    {renderBrancheOptions()}
+                    {renderBrancheOptions(role, groupe)}
                   </select>
                   <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-gray-400">
                     <Icons.ChevronRight className="w-4 h-4 rotate-90" />
@@ -607,7 +484,7 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
                     required
                   >
                     <option value="" disabled>Sélectionner...</option>
-                    {renderFonctionBrancheOptions()}
+                    {renderFonctionBrancheOptions(branche)}
                   </select>
                   <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-gray-400">
                     <Icons.ChevronRight className="w-4 h-4 rotate-90" />
@@ -627,7 +504,7 @@ export function ProfileSetup({ user, onComplete, onBack }: ProfileSetupProps) {
                     required
                   >
                     <option value="" disabled>Sélectionner...</option>
-                    {renderEtapeFormationOptions()}
+                    {renderEtapeFormationOptions(groupe)}
                   </select>
                   <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-gray-400">
                     <Icons.ChevronRight className="w-4 h-4 rotate-90" />

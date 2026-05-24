@@ -31,7 +31,7 @@ export function Profile({ user, onBack }: ProfileProps) {
       initial={{ x: "100%" }} 
       animate={{ x: 0 }} 
       transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.3 }}
-      className="flex-1 bg-white overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] relative min-h-screen"
+      className="flex-1 bg-white overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] relative h-full"
     >
       {/* Cover Background */}
       <div 
@@ -46,21 +46,21 @@ export function Profile({ user, onBack }: ProfileProps) {
         <div className="absolute top-0 left-0 right-0 px-6 pt-6 flex items-center justify-between z-10 text-white">
           <button 
             onClick={onBack} 
-            className="p-2 -ml-2 rounded-full hover:bg-black/20 transition-colors focus:outline-none backdrop-blur-sm bg-black/10"
+            className="p-2 -ml-2 rounded-full hover:bg-black/20 transition-colors focus:outline-none bg-transparent text-white border-none"
           >
             <Icons.ArrowLeft className="w-6 h-6" />
           </button>
           
           <button 
             onClick={() => setIsEditing(true)}
-            className="p-2 -mr-2 rounded-full hover:bg-black/20 transition-colors focus:outline-none backdrop-blur-sm bg-black/10"
+            className="p-2 -mr-2 rounded-full hover:bg-black/20 transition-colors focus:outline-none bg-transparent text-white border-none"
           >
             <Icons.Edit className="w-5 h-5 text-white" />
           </button>
         </div>
       </div>
 
-      <div className="bg-white relative z-20 px-6 pb-8">
+      <div className="bg-white relative z-20 px-6 pb-32">
         
         {/* Avatar and Info Row */}
         <div className="flex px-2 mb-4">
@@ -113,7 +113,7 @@ export function Profile({ user, onBack }: ProfileProps) {
               </div>
             </div>
 
-            <div className="bg-white/60 backdrop-blur-sm rounded-3xl shadow-sm border border-gray-200 overflow-hidden">
+            <div className="bg-white/70 backdrop-blur-sm rounded-3xl shadow-sm border border-gray-200 overflow-hidden">
               <h3 className="px-5 py-4 text-sm font-semibold tracking-wide text-gray-800 uppercase bg-gray-50/50 border-b border-gray-100">
                 Profil Scout
               </h3>

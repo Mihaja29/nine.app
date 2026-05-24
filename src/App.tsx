@@ -7,6 +7,7 @@ import { AuthProvider, useAuth } from './contexts/auth_context';
 import { NotificationProvider, useNotifications } from './contexts/notification_context';
 import { PeopleProvider, usePeople } from './contexts/people_context';
 import { NavigationProvider, useNavigation } from './contexts/navigation_context';
+import { AnimatePresence, motion } from 'motion/react';
 
 import { ViewState } from './models/app_types';
 import { Splash } from './views/splash';
@@ -96,7 +97,17 @@ function AppContent() {
 
   return (
     <div className="flex flex-col h-screen w-full bg-white overflow-hidden relative">
-      {renderView()}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentView}
+          initial={{ x: '100%', opacity: 0 }}
+          animate={{ x: 0, opacity: 1, transition: { duration: 0.3, ease: [0.0, 0.0, 0.2, 1] } }}
+          exit={{ x: '100%', opacity: 0, transition: { duration: 0.25, ease: [0.4, 0.0, 1, 1] } }}
+          className="w-full h-full absolute inset-0"
+        >
+          {renderView()}
+        </motion.div>
+      </AnimatePresence>
       <BottomNav 
         currentView={currentView}
         onChangeView={(v) => setCurrentView(v)}

@@ -39,6 +39,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
   const [showEquipeModal, setShowEquipeModal] = useState(false);
   const [showMembreModal, setShowMembreModal] = useState(false);
   const [membreModalStep, setMembreModalStep] = useState(1);
+  const [modalDirection, setModalDirection] = useState(1);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [personToDelete, setPersonToDelete] = useState<string | null>(null);
@@ -271,7 +272,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
       await createGroupNotification(`${creatorName} a ajouté un nouveau membre bénéficiaire : ${saveData.firstName} ${saveData.lastName}`);
 
       setShowMembreModal(false);
-      setMembreModalStep(1);
+      setModalDirection(1); setMembreModalStep(1);
       setHasTuteur(false);
       setNewMemberData({
         lastName: '', firstName: '', birthDateDay: '', birthDateMonth: '', birthDateYear: '', birthPlace: '',
@@ -378,7 +379,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
   };
 
   return (
-    <div className="flex-1 flex flex-col bg-gray-50">
+    <div className="flex-1 flex flex-col bg-gray-50 h-full overflow-y-auto no-scrollbar">
       <TopBar 
         title="Annuaire de Groupe" 
         user={user}
@@ -389,8 +390,8 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
         bgClass="bg-gray-50"
       />
 
-      <div className="pt-6 flex-1 flex flex-col">
-        <div className="relative drop-shadow-sm max-w-full flex-1 flex flex-col">
+      <div className="pt-6 pb-8">
+        <div className="relative drop-shadow-sm max-w-full">
           {isMpiandraikitra && (
             <div className="flex relative z-10 w-full shrink-0">
               <div className="flex-1 relative">
@@ -432,7 +433,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
           )}
 
           <div className={cn(
-            "bg-white px-4 pt-6 pb-24 min-h-[500px] flex-1 relative z-20 w-full",
+            "bg-white px-4 pt-6 pb-32 min-h-[500px] relative z-20 w-full",
             isMpiandraikitra ? "rounded-none" : "rounded-none"
           )}>
             {/* Stats */}
@@ -589,7 +590,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-gray-900/10 backdrop-blur-sm z-30"
+              className="fixed inset-0 bg-white/70 backdrop-blur-sm z-30"
               onClick={() => {
                 setIsFabOpen(false);
                 setTimeout(() => setFabMenu('main'), 300);
@@ -786,7 +787,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
 
       {/* Unite Modal */}
       {showUniteModal && (
-        <div className="fixed inset-0 bg-white/40 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-white/70 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -837,7 +838,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
 
       {/* Equipe Modal */}
       {showEquipeModal && (
-        <div className="fixed inset-0 bg-white/40 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-white/70 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -903,7 +904,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
 
       {/* Membre Modal Form */}
       {showMembreModal && (
-        <div className="fixed inset-0 bg-white/40 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-white/70 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -951,7 +952,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
               <button 
                 onClick={() => {
                   setShowMembreModal(false);
-                  setMembreModalStep(1);
+                  setModalDirection(1); setMembreModalStep(1);
                   setHasTuteur(false);
                   setNewMemberData({ lastName: '', firstName: '', birthDateDay: '', birthDateMonth: '', birthDateYear: '', birthPlace: '', address: '', phone: '', school: '', schoolClass: '', siblingsCount: '', fatherName: '', fatherProfession: '', fatherPhone: '', motherName: '', motherProfession: '', motherPhone: '', tuteurName: '', tuteurProfession: '', tuteurPhone: '', tutriceName: '', tutriceProfession: '', tutricePhone: '', commonIllness: '', foodIntolerance: '', totem: '', equipeId: '', etape: '', responsabilite: '', photoURL: '' });
                 }} 
@@ -961,16 +962,17 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
               </button>
             </div>
             
-            <div className="relative overflow-visible h-auto min-h-[300px]">
-              <AnimatePresence mode="wait" initial={false}>
+            <div className="relative overflow-hidden h-auto w-full flex flex-col">
+              <AnimatePresence initial={false} custom={modalDirection}>
                 {membreModalStep === 1 && (
                   <motion.div
                     key="step1"
-                    initial={{ x: '-10%', opacity: 0 }}
+                    custom={modalDirection}
+                    initial={{ x: modalDirection === 1 ? '100%' : '-100%', opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
-                    exit={{ x: '-10%', opacity: 0 }}
-                    transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.3 }}
-                    className="space-y-4"
+                    exit={{ x: modalDirection === 1 ? '-100%' : '100%', opacity: 0, position: 'absolute', top: 0, left: 0, width: '100%' }}
+                    transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.25 }}
+                    className="space-y-4 relative w-full"
                   >
                     <div className="flex flex-col items-center justify-center mb-4">
                       <div className="relative w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden border border-gray-200">
@@ -1056,7 +1058,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                     </div>
                     
                     <button
-                      onClick={() => setMembreModalStep(2)}
+                      onClick={() => { setModalDirection(2 > membreModalStep ? 1 : -1); setMembreModalStep(2); }}
                       disabled={!newMemberData.lastName || !newMemberData.firstName || !newMemberData.birthDateDay || !newMemberData.birthDateMonth || !newMemberData.birthDateYear || !newMemberData.birthPlace}
                       className="w-full py-2.5 mt-2 bg-primary text-white font-medium rounded-xl hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                      >
@@ -1068,11 +1070,12 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                 {membreModalStep === 2 && (
                   <motion.div
                     key="step2"
-                    initial={{ x: '100%', opacity: 0 }}
+                    custom={modalDirection}
+                    initial={{ x: modalDirection === 1 ? '100%' : '-100%', opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
-                    exit={{ x: '100%', opacity: 0 }}
-                    transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.3 }}
-                    className="space-y-4"
+                    exit={{ x: modalDirection === 1 ? '-100%' : '100%', opacity: 0, position: 'absolute', top: 0, left: 0, width: '100%' }}
+                    transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.25 }}
+                    className="space-y-4 relative w-full"
                   >
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-1">Adresse postale :</label>
@@ -1098,13 +1101,13 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                     
                     <div className="flex gap-2 mt-6">
                       <button
-                        onClick={() => setMembreModalStep(1)}
+                        onClick={() => { setModalDirection(-1); setModalDirection(1); setMembreModalStep(1); }}
                         className="p-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl transition-colors shrink-0 flex items-center justify-center w-12"
                       >
                         <Icons.ChevronLeft className="w-5 h-5" />
                       </button>
                       <button
-                        onClick={() => setMembreModalStep(3)}
+                        onClick={() => { setModalDirection(3 > membreModalStep ? 1 : -1); setMembreModalStep(3); }}
                         disabled={!newMemberData.address || (newMemberData.phone.length > 0 && newMemberData.phone.length !== 10)}
                         className="py-2.5 bg-primary text-white font-medium rounded-xl hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-1"
                       >
@@ -1117,11 +1120,12 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                 {membreModalStep === 3 && (
                   <motion.div
                     key="step3"
-                    initial={{ x: '100%', opacity: 0 }}
+                    custom={modalDirection}
+                    initial={{ x: modalDirection === 1 ? '100%' : '-100%', opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
-                    exit={{ x: '100%', opacity: 0 }}
-                    transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.3 }}
-                    className="space-y-4"
+                    exit={{ x: modalDirection === 1 ? '-100%' : '100%', opacity: 0, position: 'absolute', top: 0, left: 0, width: '100%' }}
+                    transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.25 }}
+                    className="space-y-4 relative w-full"
                   >
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-1">Établissement scolaire :</label>
@@ -1162,13 +1166,13 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                     
                     <div className="flex gap-2 mt-6">
                       <button
-                        onClick={() => setMembreModalStep(2)}
+                        onClick={() => { setModalDirection(2 > membreModalStep ? 1 : -1); setMembreModalStep(2); }}
                         className="p-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl transition-colors shrink-0 flex items-center justify-center w-12"
                       >
                         <Icons.ChevronLeft className="w-5 h-5" />
                       </button>
                       <button
-                        onClick={() => setMembreModalStep(4)}
+                        onClick={() => { setModalDirection(4 > membreModalStep ? 1 : -1); setMembreModalStep(4); }}
                         disabled={!newMemberData.school || !newMemberData.schoolClass}
                         className="py-2.5 bg-primary text-white font-medium rounded-xl hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-1"
                       >
@@ -1181,11 +1185,12 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                 {membreModalStep === 4 && (
                   <motion.div
                     key="step4"
-                    initial={{ x: '100%', opacity: 0 }}
+                    custom={modalDirection}
+                    initial={{ x: modalDirection === 1 ? '100%' : '-100%', opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
-                    exit={{ x: '100%', opacity: 0 }}
-                    transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.3 }}
-                    className="space-y-4 max-h-[400px] overflow-y-auto pr-2 pb-2"
+                    exit={{ x: modalDirection === 1 ? '-100%' : '100%', opacity: 0, position: 'absolute', top: 0, left: 0, width: '100%' }}
+                    transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.25 }}
+                    className="space-y-4 max-h-[400px] overflow-y-auto pr-2 pb-2 relative w-full"
                   >
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-1">Nombre de frères et sœurs :</label>
@@ -1345,13 +1350,13 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                     
                     <div className="flex gap-2 mt-6">
                       <button
-                        onClick={() => setMembreModalStep(3)}
+                        onClick={() => { setModalDirection(3 > membreModalStep ? 1 : -1); setMembreModalStep(3); }}
                         className="p-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl transition-colors shrink-0 flex items-center justify-center w-12"
                       >
                         <Icons.ChevronLeft className="w-5 h-5" />
                       </button>
                       <button
-                        onClick={() => setMembreModalStep(5)}
+                        onClick={() => { setModalDirection(5 > membreModalStep ? 1 : -1); setMembreModalStep(5); }}
                         disabled={!newMemberData.siblingsCount}
                         className="py-2.5 bg-primary text-white font-medium rounded-xl hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-1"
                       >
@@ -1364,11 +1369,12 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                 {membreModalStep === 5 && (
                   <motion.div
                     key="step5"
-                    initial={{ x: '100%', opacity: 0 }}
+                    custom={modalDirection}
+                    initial={{ x: modalDirection === 1 ? '100%' : '-100%', opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
-                    exit={{ x: '100%', opacity: 0 }}
-                    transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.3 }}
-                    className="space-y-4"
+                    exit={{ x: modalDirection === 1 ? '-100%' : '100%', opacity: 0, position: 'absolute', top: 0, left: 0, width: '100%' }}
+                    transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.25 }}
+                    className="space-y-4 relative w-full"
                   >
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-1">Maladies courantes :</label>
@@ -1396,13 +1402,13 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
 
                     <div className="flex gap-2 mt-6">
                       <button
-                        onClick={() => setMembreModalStep(4)}
+                        onClick={() => { setModalDirection(4 > membreModalStep ? 1 : -1); setMembreModalStep(4); }}
                         className="p-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl transition-colors shrink-0 flex items-center justify-center w-12"
                       >
                         <Icons.ChevronLeft className="w-5 h-5" />
                       </button>
                       <button
-                        onClick={() => setMembreModalStep(6)}
+                        onClick={() => { setModalDirection(6 > membreModalStep ? 1 : -1); setMembreModalStep(6); }}
                         className="py-2.5 bg-primary text-white font-medium rounded-xl hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-1"
                       >
                         Suivant
@@ -1414,11 +1420,12 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
                 {membreModalStep === 6 && (
                   <motion.div
                     key="step6"
-                    initial={{ x: '100%', opacity: 0 }}
+                    custom={modalDirection}
+                    initial={{ x: modalDirection === 1 ? '100%' : '-100%', opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
-                    exit={{ x: '100%', opacity: 0 }}
-                    transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.3 }}
-                    className="space-y-4"
+                    exit={{ x: modalDirection === 1 ? '-100%' : '100%', opacity: 0, position: 'absolute', top: 0, left: 0, width: '100%' }}
+                    transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.25 }}
+                    className="space-y-4 relative w-full"
                   >
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-1">Totem :</label>
@@ -1477,7 +1484,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
 
                     <div className="flex gap-2 mt-6">
                       <button
-                        onClick={() => setMembreModalStep(5)}
+                        onClick={() => { setModalDirection(5 > membreModalStep ? 1 : -1); setMembreModalStep(5); }}
                         className="p-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl transition-colors shrink-0 flex items-center justify-center w-12"
                       >
                         <Icons.ChevronLeft className="w-5 h-5" />
@@ -1501,7 +1508,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
       {/* Delete Confirmation Modal */}
       <AnimatePresence>
         {showDeleteConfirm && (
-          <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+          <div className="fixed inset-0 z-[120] flex items-center justify-center bg-white/70 backdrop-blur-sm p-4">
             <motion.div 
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}

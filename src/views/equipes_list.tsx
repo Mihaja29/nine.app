@@ -86,7 +86,7 @@ export function EquipesList({ user, onBack }: EquipesListProps) {
         <h1 className="ml-3 text-lg font-bold text-gray-900">Les Équipes</h1>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-3">
+      <div className="flex-1 overflow-y-auto p-4 pb-32 space-y-3">
         {loading ? (
           <div className="flex justify-center py-8">
             <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
@@ -138,7 +138,7 @@ export function EquipesList({ user, onBack }: EquipesListProps) {
       {/* Delete Confirmation Modal */}
       <AnimatePresence>
         {itemToDelete && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-white/70 backdrop-blur-sm">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
