@@ -288,8 +288,8 @@ export function Login() {
   };
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center w-full h-full bg-white px-6 py-4 overflow-y-auto no-scrollbar">
-      <div className="w-full max-w-sm flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="w-full h-full bg-white px-4 md:px-6 py-12 md:py-24 overflow-y-auto no-scrollbar flex flex-col items-center">
+      <div className="w-full max-w-sm flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500 min-h-[min-content]">
         
         {/* Logo area */}
         <div className="w-full flex flex-col items-center justify-center mb-1">

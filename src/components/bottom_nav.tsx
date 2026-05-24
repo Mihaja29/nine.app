@@ -82,10 +82,10 @@ export function BottomNav({ currentView, onChangeView, isOpen, setIsOpen }: Bott
           <>
             <motion.div 
               initial={{ opacity: 0 }}
-              animate={{ opacity: 0.5 }}
+              animate={{ opacity: 1 }}
               exit={{ opacity: 0, transition: { duration: 0.2, ease: [0.4, 0.0, 1, 1] } }}
               transition={{ type: "tween", ease: [0.0, 0.0, 0.2, 1], duration: 0.25 }}
-              className="fixed inset-0 bg-white/70 backdrop-blur-sm z-[50]" 
+              className="fixed inset-0 bg-white/60 backdrop-blur-md z-[50]" 
               onClick={() => setIsOpen(false)} 
             />
             <motion.div 

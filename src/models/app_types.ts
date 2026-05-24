@@ -45,6 +45,7 @@ export interface Person {
   birthDate?: string;
   address?: string;
   status?: string;
+  bio?: string;
 }
 
 export interface Category {

@@ -17,6 +17,7 @@ Ce fichier documente les règles et conventions de développement à suivre stri
 
 ## 4. Structure des Dossiers
 - Tous les fichiers doivent être rangés et organisés dans leurs dossiers appropriés.
+- Chaque fichier doit toujours être dans un dossier approprié (seulement ce qui doit y être).
 - Maintenez l'arborescence propre (par exemple, regroupez les composants dans `/src/components`, les utilitaires dans `/src/utils`, etc.) et ne laissez pas les fichiers s'accumuler à la racine d'un répertoire déraisonnablement.
 
 ## 5. Spécifications UI/UX complètes pour application mobile – Tailles minimales et animations

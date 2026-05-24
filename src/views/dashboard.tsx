@@ -390,8 +390,8 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
         bgClass="bg-gray-50"
       />
 
-      <div className="pt-6 pb-8">
-        <div className="relative drop-shadow-sm max-w-full">
+      <div className="pt-6">
+        <div className="relative max-w-full">
           {isMpiandraikitra && (
             <div className="flex relative z-10 w-full shrink-0">
               <div className="flex-1 relative">
@@ -433,7 +433,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
           )}
 
           <div className={cn(
-            "bg-white px-4 pt-6 pb-32 min-h-[500px] relative z-20 w-full",
+            "bg-white px-4 pt-6 pb-32 min-h-screen relative z-20 w-full",
             isMpiandraikitra ? "rounded-none" : "rounded-none"
           )}>
             {/* Stats */}
@@ -1542,7 +1542,7 @@ export function Dashboard({ user, onProfileClick, onBack, onMenuClick, people, o
 
 function StatCard({ icon, count, label }: { icon: React.ReactNode, count: number, label: string }) {
   return (
-    <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex flex-col items-center justify-center">
+    <div className="bg-white p-4 rounded-2xl border border-gray-100 flex flex-col items-center justify-center">
       <div className="mb-2">{icon}</div>
       <div className="text-xl font-bold text-gray-900">{count}</div>
       <div className="text-sm text-gray-500 font-medium">{label}</div>

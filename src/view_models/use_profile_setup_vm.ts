@@ -10,11 +10,15 @@ export function useProfileSetupViewModel(user: any, onComplete: () => void, isEd
   const [firstName, setFirstName] = useState(user?.firstName || '');
   const [birthDate, setBirthDate] = useState(user?.birthDate || '');
   const [address, setAddress] = useState(user?.address || '');
+  const [bio, setBio] = useState(user?.bio || '');
   const [phone, setPhone] = useState(user?.phone || '');
   const [email, setEmail] = useState(user?.email || '');
   
   const [photoURL, setPhotoURL] = useState(user?.photoURL || '');
   const [photoBase64, setPhotoBase64] = useState('');
+  
+  const [coverPhotoURL, setCoverPhotoURL] = useState(user?.coverPhotoURL || '');
+  const [coverPhotoBase64, setCoverPhotoBase64] = useState('');
   
   const [hasTotem, setHasTotem] = useState<'oui' | 'non' | ''>(user?.hasTotem || '');
   const [totemName, setTotemName] = useState(user?.totemName || '');
@@ -65,6 +69,7 @@ export function useProfileSetupViewModel(user: any, onComplete: () => void, isEd
     firstName !== (user?.firstName || (user?.displayName ? user.displayName.split(' ')[0] : '')) ||
     birthDate !== (user?.birthDate || '') ||
     address !== (user?.address || '') ||
+    bio !== (user?.bio || '') ||
     phone !== (user?.phone || '') ||
     email !== (user?.email || '') ||
     photoURL !== (user?.photoURL || '') ||
@@ -105,6 +110,7 @@ export function useProfileSetupViewModel(user: any, onComplete: () => void, isEd
           firstName,
           birthDate,
           address,
+          bio,
           phone,
           email,
           hasTotem,
@@ -119,6 +125,7 @@ export function useProfileSetupViewModel(user: any, onComplete: () => void, isEd
           promesseGuideDate: finalPromesseGuideDate,
           promesseChefDate: finalPromesseChefDate,
           photoURL: photoBase64 || photoURL,
+          coverPhotoURL: coverPhotoBase64 || coverPhotoURL,
         });
 
         localStorage.setItem(`profile_setup_done_${auth.currentUser.uid}`, 'true');
@@ -143,10 +150,13 @@ export function useProfileSetupViewModel(user: any, onComplete: () => void, isEd
     firstName, setFirstName,
     birthDate, setBirthDate,
     address, setAddress,
+    bio, setBio,
     phone, setPhone,
     email, setEmail,
     photoURL, setPhotoURL,
     photoBase64, setPhotoBase64,
+    coverPhotoURL, setCoverPhotoURL,
+    coverPhotoBase64, setCoverPhotoBase64,
     hasTotem, setHasTotem,
     totemName, setTotemName,
     useTotemAsMainName, setUseTotemAsMainName,

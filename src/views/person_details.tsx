@@ -102,7 +102,7 @@ export function PersonDetails({ person, onBack, onTalentClick }: PersonDetailsPr
         </div>
 
         <div className="space-y-4 max-w-lg mx-auto w-full">
-          <div className="bg-gray-50 rounded-3xl shadow-sm border border-gray-100 overflow-hidden">              <h3 className="px-5 py-4 text-sm font-semibold tracking-wide text-gray-800 uppercase bg-gray-50/50 border-b border-gray-100">
+          <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">              <h3 className="px-5 py-4 text-sm font-semibold tracking-wide text-gray-800 uppercase bg-gray-50/50 border-b border-gray-100">
                 Informations Personnelles
               </h3>
               <div className="flex flex-col">
